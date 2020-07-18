@@ -23,5 +23,10 @@
 hs_err_pid*
 
 # IntelliJ
-/.idea/*
+*.iml
 .gradle
+/local.properties
+/.idea/*
+.DS_Store
+/build
+/captures
