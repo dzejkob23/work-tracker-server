@@ -24,9 +24,9 @@ object Schema {
         override val primaryKey = PrimaryKey(id, name="PK_User_ID")
 
         fun toUser(row: ResultRow): User = User(
-            id = row[Users.id],
-            name = row[Users.name],
-            age = row[Users.age]
+            id = row[id],
+            name = row[name],
+            age = row[age]
         )
     }
     data class User(

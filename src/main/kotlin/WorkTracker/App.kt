@@ -64,9 +64,9 @@ private fun initLogging() {
 
 private fun initDB() {
     val config = HikariConfig()
-    config.setJdbcUrl("jdbc:postgresql://localhost:5432/work-tracker")
-    config.setUsername("zikaj")
-    config.setPassword("test")
+    config.jdbcUrl = "jdbc:postgresql://localhost:5432/work-tracker"
+    config.username = "zikaj"
+    config.password = "test"
     config.addDataSourceProperty("cachePrepStmts", "true")
     config.addDataSourceProperty("prepStmtCacheSize", "250")
     config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
