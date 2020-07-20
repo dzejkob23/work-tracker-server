@@ -24,7 +24,7 @@ hs_err_pid*
 
 # IntelliJ
 *.iml
-.gradle
+.gradle/*
 /local.properties
 /.idea/*
 .DS_Store
