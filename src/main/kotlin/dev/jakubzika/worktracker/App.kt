@@ -1,9 +1,8 @@
-package WorkTracker
+package dev.jakubzika.worktracker
 
 import io.ktor.jackson.*
 import io.ktor.features.ContentNegotiation
 import io.ktor.application.*
-import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.request.receive
@@ -15,13 +14,13 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import dev.jakubzika.worktracker.db.DatabaseFactory
 
-import org.apache.log4j.PropertyConfigurator
 import org.apache.log4j.BasicConfigurator
 
-import WorkTracker.db.Schema
-import WorkTracker.db.Schema.User
-import WorkTracker.db.Schema.Users
+import dev.jakubzika.worktracker.db.Schema
+import dev.jakubzika.worktracker.db.Schema.User
+import dev.jakubzika.worktracker.db.Schema.Users
 
 /* 
  * ## Run auto-reloading ##
@@ -36,7 +35,7 @@ import WorkTracker.db.Schema.Users
 fun main() {
     embeddedServer(
         Netty,
-        watchPaths = listOf("WorkTracker"),
+        watchPaths = listOf("dev/jakubzika/worktracker"),
         module = Application::module,
         port = 8080
     ).start(wait = true)
@@ -44,7 +43,7 @@ fun main() {
 
 fun Application.module() {
     initLogging()
-    initDB()
+    DatabaseFactory.init()
     contentNegotiation()
     database()
 }
@@ -60,20 +59,6 @@ private fun Application.contentNegotiation() {
 private fun initLogging() {
     BasicConfigurator.configure()
     // PropertyConfigurator.configure("log4j.properties")
-}
-
-private fun initDB() {
-    val config = HikariConfig()
-    config.jdbcUrl = "jdbc:postgresql://localhost:5432/work-tracker"
-    config.username = "zikaj"
-    config.password = "test"
-    config.addDataSourceProperty("cachePrepStmts", "true")
-    config.addDataSourceProperty("prepStmtCacheSize", "250")
-    config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
-    val ds = HikariDataSource(config)
-    
-    Database.connect(ds)
-    Schema.create()
 }
 
 private fun Application.database() {
@@ -95,3 +80,5 @@ private fun Application.database() {
         }
     }
 }
+
+const val API_VERSION = "/v1"
