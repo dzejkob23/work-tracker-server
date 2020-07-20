@@ -38,15 +38,15 @@ dependencies {
     implementation("io.ktor:ktor-jackson:1.3.0")
 
     // Exposed (DB)
-    compile("org.jetbrains.exposed", "exposed-core", "0.24.1")
-    compile("org.jetbrains.exposed", "exposed-jdbc", "0.24.1")
+    implementation("org.jetbrains.exposed", "exposed-core", "0.26.1")
+    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.26.1")
 
     // PostreSql + DB configuration
-    compile("org.postgresql:postgresql:42.2.2")
-    compile("com.zaxxer:HikariCP:3.2.0")
-    compile("org.apache.cassandra:cassandra-all:0.8.1")
-    compile("org.apache.logging.log4j:log4j-api:2.13.3")
-    compile("org.apache.logging.log4j:log4j-core:2.13.3")
+    implementation("org.postgresql:postgresql:42.2.12")
+    implementation("com.zaxxer:HikariCP:3.2.0")
+    implementation("org.apache.cassandra:cassandra-all:0.8.1")
+    implementation("org.apache.logging.log4j:log4j-api:2.13.3")
+    implementation("org.apache.logging.log4j:log4j-core:2.13.3")
 
 }
 
