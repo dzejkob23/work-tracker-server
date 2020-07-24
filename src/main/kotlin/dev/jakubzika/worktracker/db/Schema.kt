@@ -1,26 +1,21 @@
 package dev.jakubzika.worktracker.db
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.Date
-import java.sql.Timestamp
 
 object Schema {
 
-    /** Tables */
+    /** USERS */
     object Users : Table() {
         val id: Column<Int> = integer("id").autoIncrement()
         val nickname: Column<String> = varchar("nickname", 255)
-        val passwd: Column<String> = varchar("passwd", 255)
+        val password: Column<String> = varchar("passwd", 255)
     
         override val primaryKey = PrimaryKey(id, name="PK_User_ID")
 
         fun toUser(row: ResultRow): User = User(
                 id = row[id],
                 nickname = row[nickname],
-                passwd = row[passwd]
+                passwd = row[password]
         )
     }
     data class User(
@@ -29,6 +24,7 @@ object Schema {
         val passwd: String
     )
 
+    /** PROJECTS */
     object Projects : Table() {
         val id: Column<Int> = integer("id").autoIncrement()
         val name: Column<String> = varchar("name", 255)
@@ -36,43 +32,47 @@ object Schema {
         val endTime: Column<String> = varchar("endTime", 255)
         val userId: Column<Int> = integer("userId").references(Users.id)
 
-        override val primaryKey = PrimaryKey(Users.id, name="PK_Project_ID")
+        override val primaryKey = PrimaryKey(id, name="PK_Project_ID")
 
         fun toProject(row: ResultRow): Project = Project(
                 id = row[id],
                 name = row[name],
-                start = row[startTime],
-                end = row[endTime],
+                startTime = row[startTime],
+                endTime = row[endTime],
                 userId = row[userId]
         )
     }
     data class Project(
         val id: Int? = null,
         val name: String,
-        val start: String,
-        val end: String,
+        val startTime: String,
+        val endTime: String,
         val userId: Int
     )
 
-    /** Operations */
-    fun Transaction.insertUser(nickname: String, passwd: String) {
-        Users.insert {
-            it[Users.nickname] = nickname
-            it[Users.passwd] = passwd
-        }
-    }
+    /** WORK SESSIONS */
+    object WorkSessions : Table() {
+        val id: Column<Int> = integer("id").autoIncrement()
+        val startTime: Column<String> = Projects.varchar("startTime", 255)
+        val endTime: Column<String> = Projects.varchar("endTime", 255)
+        val userId: Column<Int> = Projects.integer("userId").references(Users.id)
+        val projectId: Column<Int> = Projects.integer("projectId").references(Projects.id)
 
-    fun insertUser(nickname: String, passwd: String) {
-        transaction {
-            Users.insert {
-                it[Users.nickname] = nickname
-                it[Users.passwd] = passwd
-            }
-        }
+        override val primaryKey = PrimaryKey(id, name="PK_WorkSession_ID")
+
+        fun toWorkSession(row: ResultRow): WorkSession = WorkSession(
+                id = row[id],
+                startTime = row[startTime],
+                endTime = row[endTime],
+                userId = row[userId],
+                projectId = row[projectId]
+        )
     }
+    data class WorkSession(
+            val id: Int?,
+            val startTime: String,
+            val endTime: String,
+            val userId: Int,
+            val projectId: Int
+    )
 }
-
-suspend fun <T> dbQuery(block: () -> T): T =
-        withContext(Dispatchers.IO) {
-            transaction { block() }
-        }
