@@ -21,6 +21,8 @@ import org.apache.log4j.BasicConfigurator
 import dev.jakubzika.worktracker.db.Schema
 import dev.jakubzika.worktracker.db.Schema.User
 import dev.jakubzika.worktracker.db.Schema.Users
+import io.ktor.http.ContentType
+import io.ktor.server.engine.applicationEngineEnvironment
 
 /* 
  * ## Run auto-reloading ##
@@ -41,7 +43,10 @@ fun main() {
     ).start(wait = true)
 }
 
-fun Application.module() {
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+@SuppressWarnings("unused") // Referenced in application.conf
+fun Application.main() {
     initLogging()
     DatabaseFactory.init()
     contentNegotiation()
