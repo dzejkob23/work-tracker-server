@@ -20,6 +20,10 @@ repositories {
 
 dependencies {
 
+    val versionKtor = "1.3.0"
+    val versionExposed = "0.26.1"
+    val versionLog4j = "2.13.3"
+
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
@@ -33,20 +37,23 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
     // Ktor
-    implementation("io.ktor:ktor-server-core:1.3.0")
-    implementation("io.ktor:ktor-server-netty:1.3.0")
-    implementation("io.ktor:ktor-jackson:1.3.0")
+    implementation("io.ktor", "ktor-server-core", versionKtor)
+    implementation("io.ktor", "ktor-server-netty", versionKtor)
+    implementation("io.ktor", "ktor-jackson", versionKtor)
+    implementation("io.ktor", "ktor-auth-jwt", versionKtor)
 
     // Exposed (DB)
-    implementation("org.jetbrains.exposed", "exposed-core", "0.26.1")
-    implementation("org.jetbrains.exposed", "exposed-jdbc", "0.26.1")
+    implementation("org.jetbrains.exposed", "exposed-core", versionExposed)
+    implementation("org.jetbrains.exposed", "exposed-jdbc", versionExposed)
 
     // PostreSql + DB configuration
-    implementation("org.postgresql:postgresql:42.2.12")
-    implementation("com.zaxxer:HikariCP:3.2.0")
-    implementation("org.apache.cassandra:cassandra-all:0.8.1")
-    implementation("org.apache.logging.log4j:log4j-api:2.13.3")
-    implementation("org.apache.logging.log4j:log4j-core:2.13.3")
+    implementation("org.postgresql", "postgresql", "42.2.12")
+    implementation("org.apache.cassandra", "cassandra-all", "0.8.1")
+    implementation("com.zaxxer", "HikariCP", "3.2.0")
+
+    // Logging
+    implementation("org.apache.logging.log4j", "log4j-api", versionLog4j)
+    implementation("org.apache.logging.log4j", "log4j-core", versionLog4j)
 
 }
 
