@@ -7,11 +7,13 @@ import dev.jakubzika.worktracker.db.DatabaseFactory
 import dev.jakubzika.worktracker.repository.UserRepositoryImpl
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
+import dev.jakubzika.worktracker.utils.getEnvironmentProperty
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.Credential
 import io.ktor.auth.Principal
+import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
@@ -47,10 +49,37 @@ fun Application.main(testing: Boolean = false) {
 
     // init database
     DatabaseFactory.init()
-    contentNegotiation()
-    database()
-}
 
+    val db = UserRepositoryImpl()
+
+    val jwtService = JwtService()
+    val hashFunction = { s: String -> hash(s) }
+
+    install(Authentication) {
+
+        val jwtIssuer = getEnvironmentProperty("jwt.domain")
+        val jwtAudience = getEnvironmentProperty("jwt.audience")
+        val jwtRealm = getEnvironmentProperty("jwt.realm")
+
+        jwt {
+            realm = jwtRealm
+            verifier(jwtService.makeJwtVerifier(jwtIssuer, jwtAudience))
+            validate { credential ->
+
+                val payload = credential.payload
+                val claim = payload.getClaim("id")
+                val claimString = claim.asInt()
+                val user = db.findUser(claimString)
+
+                if (user != null) {
+                    JWTPrincipal(credential.payload)
+                } else null
+
+//                if (credential.payload.audience.contains(jwtAudience)) {
+//                    JWTPrincipal(credential.payload)
+//                } else null
+            }
+        }
     }
 
     // install JSON file processor
