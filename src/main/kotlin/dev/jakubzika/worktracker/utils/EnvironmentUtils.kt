@@ -4,9 +4,13 @@ import io.ktor.application.Application
 import io.ktor.util.KtorExperimentalAPI
 
 @KtorExperimentalAPI
-private fun Application.getEnvKind(): String {
-    return environment.config.property("ktor.environment").getString()
-}
+fun Application.getEnvironmentProperty(name: String): String = environment.config.property(name).toString()
 
+@KtorExperimentalAPI
+private fun Application.getEnvKind(): String = getEnvironmentProperty("ktor.environment")
+
+@KtorExperimentalAPI
 fun Application.isDev(): Boolean = getEnvKind() == "dev"
+
+@KtorExperimentalAPI
 fun Application.isProd(): Boolean = !isDev()
