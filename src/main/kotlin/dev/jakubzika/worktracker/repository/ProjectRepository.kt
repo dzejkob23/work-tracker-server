@@ -3,6 +3,7 @@ package dev.jakubzika.worktracker.repository
 import dev.jakubzika.worktracker.db.Schema.Project
 import dev.jakubzika.worktracker.db.Schema.Projects
 import dev.jakubzika.worktracker.extension.dbQuery
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.statements.InsertStatement
@@ -16,6 +17,8 @@ interface ProjectRepository {
     ): Project?
     suspend fun findProject(projectId: Int): Project?
     suspend fun findUsersProjects(userId: Int): List<Project>
+    suspend fun deleteProject(projectId: Int)
+    suspend fun deleteUsersProjects(userId: Int)
 }
 
 class ProjectRepositoryImpl : ProjectRepository {
@@ -44,5 +47,17 @@ class ProjectRepositoryImpl : ProjectRepository {
 
     override suspend fun findUsersProjects(userId: Int): List<Project> {
         return Projects.select { Projects.userId.eq(userId) }.map { Projects.toProject(it) }
+    }
+
+    override suspend fun deleteProject(projectId: Int) {
+        dbQuery {
+            Projects.deleteWhere { Projects.id.eq(projectId) }
+        }
+    }
+
+    override suspend fun deleteUsersProjects(userId: Int) {
+        dbQuery {
+            Projects.deleteWhere { Projects.userId.eq(userId) }
+        }
     }
 }
