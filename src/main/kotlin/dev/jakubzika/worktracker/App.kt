@@ -1,28 +1,23 @@
 package dev.jakubzika.worktracker
 
-import io.ktor.jackson.*
-import io.ktor.features.ContentNegotiation
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.request.receive
-import io.ktor.server.netty.Netty
-import io.ktor.server.engine.embeddedServer
-
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
-
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
+import dev.jakubzika.worktracker.auth.JwtService
+import dev.jakubzika.worktracker.auth.MySession
+import dev.jakubzika.worktracker.auth.hash
 import dev.jakubzika.worktracker.db.DatabaseFactory
-
-import org.apache.log4j.BasicConfigurator
-
-import dev.jakubzika.worktracker.db.Schema
-import dev.jakubzika.worktracker.db.Schema.User
-import dev.jakubzika.worktracker.db.Schema.Users
-import io.ktor.http.ContentType
-import io.ktor.server.engine.applicationEngineEnvironment
+import dev.jakubzika.worktracker.repository.UserRepositoryImpl
+import dev.jakubzika.worktracker.routing.api
+import dev.jakubzika.worktracker.routing.web
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.auth.Credential
+import io.ktor.auth.Principal
+import io.ktor.auth.jwt.jwt
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.routing.Routing
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
 
 /* 
  * ## Run auto-reloading ##
@@ -31,59 +26,41 @@ import io.ktor.server.engine.applicationEngineEnvironment
  * 
  * ## Send Json data on server ##
  * curl -H "Content-Type: application/json" -d '{"name":"John","age":42}' http://localhost:8080
- * 
+ *
+ * ## Run server
+ * gradle clean build run
  */
 
-fun main() {
-    embeddedServer(
-        Netty,
-        watchPaths = listOf("dev/jakubzika/worktracker"),
-        module = Application::module,
-        port = 8080
-    ).start(wait = true)
-}
+const val API_VERSION = "/v1"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-@SuppressWarnings("unused") // Referenced in application.conf
-fun Application.main() {
-    initLogging()
+@Suppress("unused") // Referenced in application.conf
+@kotlin.jvm.JvmOverloads
+fun Application.main(testing: Boolean = false) {
+
+    install(Sessions) {
+        cookie<MySession>("MY_SESSION") {
+            cookie.extensions["SameSite"] = "lax"
+        }
+    }
+
+    // init database
     DatabaseFactory.init()
     contentNegotiation()
     database()
 }
 
-private fun Application.contentNegotiation() {
+    }
+
+    // install JSON file processor
     install(ContentNegotiation) {
-        jackson {
-            // Configre Jaskcon's ObjectMapper here
-        }
+        gson { /* Configre Jaskcon's ObjectMapper here */ }
+    }
+
+    // install calling routes
+    install(Routing) {
+        web()
+        api()
     }
 }
-
-private fun initLogging() {
-    BasicConfigurator.configure()
-    // PropertyConfigurator.configure("log4j.properties")
-}
-
-private fun Application.database() {
-
-    install(Routing) { 
-        route("/user") {
-            get("/") {
-                val users = transaction {
-                    Users.selectAll().map {
-                        Users.toUser(it)
-                    }
-                }
-                call.respond(users)
-            }
-            post("/") {
-                val user = call.receive<User>()
-                call.respond(user)
-            }
-        }
-    }
-}
-
-const val API_VERSION = "/v1"
