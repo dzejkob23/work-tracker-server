@@ -11,8 +11,6 @@ import dev.jakubzika.worktracker.utils.getEnvironmentProperty
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.auth.Authentication
-import io.ktor.auth.Credential
-import io.ktor.auth.Principal
 import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.ContentNegotiation
@@ -32,8 +30,6 @@ import io.ktor.sessions.cookie
  * ## Run server
  * gradle clean build run
  */
-
-const val API_VERSION = "/v1"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
