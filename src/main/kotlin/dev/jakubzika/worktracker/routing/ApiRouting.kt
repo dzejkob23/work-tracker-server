@@ -15,12 +15,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 const val API_VERSION_V1 = "/v1"
 
-const val USER = "$API_VERSION_V1/users"
+const val USER = "$API_VERSION_V1/user"
 const val USER_LOGIN = "$USER/login"
 const val USER_CREATE = "$USER/create"
 const val USER_FIND = "$USER/find"
 
-const val PROJECT = "$API_VERSION_V1/projects"
+const val PROJECT = "$API_VERSION_V1/project"
 
 fun Routing.api() {
     users()

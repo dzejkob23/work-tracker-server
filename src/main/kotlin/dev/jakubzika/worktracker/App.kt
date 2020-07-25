@@ -13,11 +13,13 @@ import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
+import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.routing.Routing
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
+import io.ktor.util.KtorExperimentalAPI
 
 /* 
  * ## Run auto-reloading ##
@@ -33,9 +35,11 @@ import io.ktor.sessions.cookie
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@KtorExperimentalAPI
 @Suppress("unused") // Referenced in application.conf
-@kotlin.jvm.JvmOverloads
-fun Application.main(testing: Boolean = false) {
+fun Application.main() {
+
+    install(CallLogging)
 
     install(Sessions) {
         cookie<MySession>("MY_SESSION") {
@@ -53,9 +57,9 @@ fun Application.main(testing: Boolean = false) {
 
     install(Authentication) {
 
-        val jwtIssuer = getEnvironmentProperty("jwt.domain")
-        val jwtAudience = getEnvironmentProperty("jwt.audience")
-        val jwtRealm = getEnvironmentProperty("jwt.realm")
+        val jwtIssuer = getEnvironmentProperty("ktor.jwt.domain")
+        val jwtAudience = getEnvironmentProperty("ktor.jwt.audience")
+        val jwtRealm = getEnvironmentProperty("ktor.jwt.realm")
 
         jwt {
             realm = jwtRealm
