@@ -15,6 +15,7 @@ import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
 import io.ktor.routing.Routing
 import io.ktor.sessions.Sessions
@@ -38,7 +39,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @KtorExperimentalAPI
 @Suppress("unused") // Referenced in application.conf
 fun Application.main() {
-
+    install(DefaultHeaders)
     install(CallLogging)
 
     install(Sessions) {
@@ -49,7 +50,6 @@ fun Application.main() {
 
     // init database
     DatabaseFactory.init()
-
     val db = UserRepositoryImpl()
 
     val jwtService = JwtService()

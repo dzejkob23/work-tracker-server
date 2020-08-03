@@ -43,6 +43,7 @@ dependencies {
     implementation("io.ktor", "ktor-server-netty", ktor_version)
     implementation("io.ktor", "ktor-gson", ktor_version)
     implementation("io.ktor", "ktor-auth-jwt", ktor_version)
+    implementation("io.ktor", "ktor-html-builder", ktor_version)
 
     // Exposed (DB)
     implementation("org.jetbrains.exposed", "exposed-core", exposed_version)
