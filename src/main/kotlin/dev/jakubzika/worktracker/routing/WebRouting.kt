@@ -1,13 +1,14 @@
 package dev.jakubzika.worktracker.routing
 
 import dev.jakubzika.worktracker.APP_NAME
+import dev.jakubzika.worktracker.AUTH_BASIC
 import dev.jakubzika.worktracker.pages.homePage
+import dev.jakubzika.worktracker.pages.registrationPage
 import io.ktor.application.call
-import io.ktor.html.respondHtml
+import io.ktor.auth.authenticate
+import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
-import io.ktor.routing.route
-import kotlinx.html.*
 
 
 // Web routes
@@ -24,42 +25,12 @@ const val FORM_FIELD_PASSWD = "password"
 
 fun Routing.web() {
 
-    homePage()
+    homePage(HOME)
+    registrationPage(REGISTRATION)
 
-    route(REGISTRATION) {
-        get {
-            call.respondHtml {
-                head {
-                    title { +"Ktor: Registration Page" }
-                }
-                body {
-                    registrationForm()
-                }
-            }
-        }
-    }
-}
-
-fun FlowContent.registrationForm() {
-    form(
-            action = REGISTRATION,
-            encType = FormEncType.applicationXWwwFormUrlEncoded,
-            method = FormMethod.post
-    ) {
-        p {
-            +"User name: "
-            textInput(name = FORM_FIELD_NAME)
-        }
-        p {
-            +"Password: "
-            passwordInput(name = FORM_FIELD_PASSWD)
-        }
-        p {
-            +"Password again: "
-            passwordInput(name = FORM_FIELD_PASSWD)
-        }
-        p {
-            submitInput { value = "Login" }
+    authenticate(AUTH_BASIC) {
+        get(LOGIN) {
+            call.respondText("Access secure area")
         }
     }
 }
