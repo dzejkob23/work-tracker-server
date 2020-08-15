@@ -1,23 +1,23 @@
 package dev.jakubzika.worktracker
 
-import dev.jakubzika.worktracker.auth.JwtService
 import dev.jakubzika.worktracker.auth.MySession
-import dev.jakubzika.worktracker.auth.hash
-import dev.jakubzika.worktracker.db.DatabaseFactory
-import dev.jakubzika.worktracker.repository.UserRepositoryImpl
+import dev.jakubzika.worktracker.routing.LOGIN
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
-import dev.jakubzika.worktracker.utils.getEnvironmentProperty
 import io.ktor.application.Application
+import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
-import io.ktor.auth.jwt.JWTPrincipal
-import io.ktor.auth.jwt.jwt
+import io.ktor.auth.UserIdPrincipal
+import io.ktor.auth.authenticate
+import io.ktor.auth.basic
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
+import io.ktor.response.respondText
 import io.ktor.routing.Routing
+import io.ktor.routing.get
 import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import io.ktor.util.KtorExperimentalAPI
@@ -34,62 +34,53 @@ import io.ktor.util.KtorExperimentalAPI
  * gradle clean build run
  */
 
+const val APP_NAME = "WorkTracker"
+
+const val AUTH_BASIC = "auth"
+
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @KtorExperimentalAPI
 @Suppress("unused") // Referenced in application.conf
 fun Application.main() {
+
+    // todo - spojit s loginem
+    //DatabaseFactory.init()
+
     install(DefaultHeaders)
     install(CallLogging)
 
+    // todo - zapojit do akce
     install(Sessions) {
         cookie<MySession>("MY_SESSION") {
             cookie.extensions["SameSite"] = "lax"
         }
     }
 
-    // init database
-    DatabaseFactory.init()
-    val db = UserRepositoryImpl()
-
-    val jwtService = JwtService()
-    val hashFunction = { s: String -> hash(s) }
-
-    install(Authentication) {
-
-        val jwtIssuer = getEnvironmentProperty("ktor.jwt.domain")
-        val jwtAudience = getEnvironmentProperty("ktor.jwt.audience")
-        val jwtRealm = getEnvironmentProperty("ktor.jwt.realm")
-
-        jwt {
-            realm = jwtRealm
-            verifier(jwtService.makeJwtVerifier(jwtIssuer, jwtAudience))
-            validate { credential ->
-
-                val payload = credential.payload
-                val claim = payload.getClaim("id")
-                val claimString = claim.asInt()
-                val user = db.findUser(claimString)
-
-                if (user != null) {
-                    JWTPrincipal(credential.payload)
-                } else null
-
-//                if (credential.payload.audience.contains(jwtAudience)) {
-//                    JWTPrincipal(credential.payload)
-//                } else null
-            }
-        }
-    }
-
-    // install JSON file processor
     install(ContentNegotiation) {
         gson { /* Configre Jaskcon's ObjectMapper here */ }
     }
 
-    // install calling routes
+    install(Authentication) {
+        basic(AUTH_BASIC) {
+            realm = "Basic auth form"
+            validate { credentials ->
+                if (credentials.name == credentials.password) {
+                    UserIdPrincipal(credentials.name)
+                } else {
+                    null
+                }
+            }
+        }
+    }
+
     install(Routing) {
-        web()
+        authenticate(AUTH_BASIC) {
+            get(LOGIN) {
+                call.respondText("Access secure area")
+            }
+        }
         api()
+        web()
     }
 }

@@ -1,65 +1,65 @@
 package dev.jakubzika.worktracker.routing
 
+import dev.jakubzika.worktracker.APP_NAME
+import dev.jakubzika.worktracker.pages.homePage
 import io.ktor.application.call
 import io.ktor.html.respondHtml
-import io.ktor.http.ContentType
-import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
+import io.ktor.routing.route
 import kotlinx.html.*
 
+
+// Web routes
 const val HOME = "/"
 const val LOGIN = "/login"
+const val REGISTRATION = "/registration"
+
+// Web common constants
+const val PAGE_TITLE = APP_NAME
+
+// Form common attributes keys
+const val FORM_FIELD_NAME = "username"
+const val FORM_FIELD_PASSWD = "password"
 
 fun Routing.web() {
-    get(HOME) {
-        call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
-    }
-    get(LOGIN) {
-        call.respondHtml {
-            head {
-                title { +"Ktor: html" }
-            }
-            body {
-                p {
-                    +"Hello from Ktor html sample application"
+
+    homePage()
+
+    route(REGISTRATION) {
+        get {
+            call.respondHtml {
+                head {
+                    title { +"Ktor: Registration Page" }
                 }
-                widget {
-                    +"Widgets are just functions"
+                body {
+                    registrationForm()
                 }
-                loginForm()
             }
         }
     }
 }
 
-@HtmlTagMarker
-fun FlowContent.widget(body: FlowContent.() -> Unit) {
-    div { body() }
-}
-
-fun FlowContent.loginForm() {
-    form {
-        label {
-            +"Nick Name: "
-            input {
-                id = "nicknameInputId"
-                name = "nicknameLabelId"
-                type = InputType.text
-            }
+fun FlowContent.registrationForm() {
+    form(
+            action = REGISTRATION,
+            encType = FormEncType.applicationXWwwFormUrlEncoded,
+            method = FormMethod.post
+    ) {
+        p {
+            +"User name: "
+            textInput(name = FORM_FIELD_NAME)
         }
-        br
-        label {
+        p {
             +"Password: "
-            input {
-                id = "passwordInputId"
-                name = "passwordLabelId"
-                type = InputType.password
-            }
+            passwordInput(name = FORM_FIELD_PASSWD)
         }
-        br
-        button {
-            +"Login"
+        p {
+            +"Password again: "
+            passwordInput(name = FORM_FIELD_PASSWD)
+        }
+        p {
+            submitInput { value = "Login" }
         }
     }
 }
