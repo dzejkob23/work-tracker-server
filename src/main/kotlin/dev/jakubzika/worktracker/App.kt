@@ -11,10 +11,9 @@ import io.ktor.auth.Authentication
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authenticate
 import io.ktor.auth.basic
-import io.ktor.features.CallLogging
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
+import io.ktor.features.*
 import io.ktor.gson.gson
+import io.ktor.http.*
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
@@ -49,6 +48,16 @@ fun Application.main() {
 
     install(DefaultHeaders)
     install(CallLogging)
+
+    install(StatusPages) {
+        exception<Throwable> { e ->
+            call.respondText(
+                    e.localizedMessage,
+                    ContentType.Text.Plain,
+                    HttpStatusCode.InternalServerError
+            )
+        }
+    }
 
     // todo - zapojit do akce
     install(Sessions) {

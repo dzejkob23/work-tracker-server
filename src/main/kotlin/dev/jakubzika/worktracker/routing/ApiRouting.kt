@@ -44,12 +44,21 @@ fun Routing.users() {
     }
     route(USER_CREATE) {
         // todo
+        handle {
+            call.respond(Response(status = "OK"))
+        }
     }
     route(USER_LOGIN) {
         // todo
+        handle {
+            call.respond(Response(status = "OK"))
+        }
     }
     route(USER_FIND) {
         // todo
+        handle {
+            call.respond(Response(status = "OK"))
+        }
     }
 }
 
@@ -60,3 +69,5 @@ fun Routing.projects() {
         }
     }
 }
+
+data class Response(val status: String)
