@@ -59,7 +59,6 @@ dependencies {
     implementation("ch.qos.logback", "logback-classic", logback_version)
 
     // Koin
-    implementation("org.koin", "koin-gradle-plugin", koin_version)
     implementation("org.koin", "koin-core", koin_version)
     implementation("org.koin", "koin-ktor", koin_version)
 

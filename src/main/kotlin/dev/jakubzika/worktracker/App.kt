@@ -3,6 +3,7 @@ package dev.jakubzika.worktracker
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.db.DatabaseFactory
+import dev.jakubzika.worktracker.modules.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
 import io.ktor.application.*
@@ -14,6 +15,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
+import org.koin.core.context.startKoin
 import kotlin.collections.set
 
 /* 
@@ -37,6 +39,10 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @KtorExperimentalAPI
 @Suppress("unused") // Referenced in application.conf
 fun Application.main() {
+
+    startKoin {
+        repositoryModule
+    }
 
     // todo - spojit s loginem
     DatabaseFactory.init()
