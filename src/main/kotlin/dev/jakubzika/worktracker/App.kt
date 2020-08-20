@@ -2,7 +2,7 @@ package dev.jakubzika.worktracker
 
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
-import dev.jakubzika.worktracker.db.DatabaseFactory
+import dev.jakubzika.worktracker.modules.appModule
 import dev.jakubzika.worktracker.modules.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
@@ -41,11 +41,9 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() {
 
     startKoin {
+        appModule
         repositoryModule
     }
-
-    // todo - spojit s loginem
-    DatabaseFactory.init()
 
     install(DefaultHeaders)
     install(CallLogging)

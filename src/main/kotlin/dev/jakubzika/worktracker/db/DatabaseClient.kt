@@ -6,9 +6,9 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object DatabaseFactory {
+class DatabaseClient {
 
-    fun init() {
+    init {
         Database.connect(hikari())
 
         transaction {
