@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.extension
+package dev.jakubzika.worktracker.extensions
 
 import java.math.BigInteger
 import java.nio.ByteBuffer

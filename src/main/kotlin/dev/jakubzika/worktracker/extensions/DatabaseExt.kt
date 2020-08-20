@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.extension
+package dev.jakubzika.worktracker.extensions
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
