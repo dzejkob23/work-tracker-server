@@ -4,22 +4,16 @@ import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.routing.LOGIN
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
-import io.ktor.application.Application
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.auth.Authentication
-import io.ktor.auth.UserIdPrincipal
-import io.ktor.auth.authenticate
-import io.ktor.auth.basic
+import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.features.*
-import io.ktor.gson.gson
+import io.ktor.gson.*
 import io.ktor.http.*
-import io.ktor.response.respondText
-import io.ktor.routing.Routing
-import io.ktor.routing.get
-import io.ktor.sessions.Sessions
-import io.ktor.sessions.cookie
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.sessions.*
+import io.ktor.util.*
+import kotlin.collections.set
 
 /* 
  * ## Run auto-reloading ##
