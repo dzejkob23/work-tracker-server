@@ -4,8 +4,8 @@ import dev.jakubzika.worktracker.APP_NAME
 import dev.jakubzika.worktracker.routing.LOGIN
 import dev.jakubzika.worktracker.routing.PAGE_TITLE
 import dev.jakubzika.worktracker.routing.REGISTRATION
-import io.ktor.application.call
-import io.ktor.html.respondHtml
+import io.ktor.application.*
+import io.ktor.html.*
 import io.ktor.routing.Routing
 import io.ktor.routing.get
 import kotlinx.html.*
@@ -22,7 +22,9 @@ fun Routing.homePage(route: String) {
                 h1 { +HOME_PAGE_TITLE }
                 p {
                     + "If you have not an account already. Please, click to \"Register\" button."
-                    br
+                    + "On the other side click on \"Login\" button."
+                }
+                p {
                     form(
                             action = REGISTRATION,
                             encType = FormEncType.textPlain,
@@ -32,8 +34,6 @@ fun Routing.homePage(route: String) {
                     }
                 }
                 p {
-                    + "On the other side click on \"Login\" button."
-                    br
                     form(
                             action = LOGIN,
                             encType = FormEncType.textPlain,

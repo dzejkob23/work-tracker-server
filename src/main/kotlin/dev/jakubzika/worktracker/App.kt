@@ -1,7 +1,8 @@
 package dev.jakubzika.worktracker
 
+import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
-import dev.jakubzika.worktracker.routing.LOGIN
+import dev.jakubzika.worktracker.db.DatabaseFactory
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
 import io.ktor.application.*
@@ -29,7 +30,7 @@ import kotlin.collections.set
 
 const val APP_NAME = "WorkTracker"
 
-const val AUTH_BASIC = "auth"
+const val AUTH_USER = "userAuth"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -38,7 +39,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() {
 
     // todo - spojit s loginem
-    //DatabaseFactory.init()
+    DatabaseFactory.init()
 
     install(DefaultHeaders)
     install(CallLogging)
@@ -65,24 +66,15 @@ fun Application.main() {
     }
 
     install(Authentication) {
-        basic(AUTH_BASIC) {
+        basic(AUTH_USER) {
             realm = "Basic auth form"
             validate { credentials ->
-                if (credentials.name == credentials.password) {
-                    UserIdPrincipal(credentials.name)
-                } else {
-                    null
-                }
+                AuthService.authenticate(credentials.name, credentials.password)
             }
         }
     }
 
     install(Routing) {
-        authenticate(AUTH_BASIC) {
-            get(LOGIN) {
-                call.respondText("Access secure area")
-            }
-        }
         api()
         web()
     }
