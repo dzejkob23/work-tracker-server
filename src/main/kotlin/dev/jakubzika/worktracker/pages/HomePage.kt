@@ -1,9 +1,8 @@
 package dev.jakubzika.worktracker.pages
 
 import dev.jakubzika.worktracker.APP_NAME
-import dev.jakubzika.worktracker.routing.LOGIN
+import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.PAGE_TITLE
-import dev.jakubzika.worktracker.routing.REGISTRATION
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.routing.Routing
@@ -26,7 +25,7 @@ fun Routing.homePage(route: String) {
                 }
                 p {
                     form(
-                            action = REGISTRATION,
+                            action = Endpoint.REGISTRATION.url,
                             encType = FormEncType.textPlain,
                             method = FormMethod.get
                     ) {
@@ -35,7 +34,7 @@ fun Routing.homePage(route: String) {
                 }
                 p {
                     form(
-                            action = LOGIN,
+                            action = Endpoint.LOGIN.url,
                             encType = FormEncType.textPlain,
                             method = FormMethod.get
                     ) {

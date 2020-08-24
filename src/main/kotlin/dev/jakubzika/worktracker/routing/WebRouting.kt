@@ -9,12 +9,6 @@ import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-
-// Web routes
-const val HOME = "/"
-const val LOGIN = "/login"
-const val REGISTRATION = "/registration"
-
 // Web common constants
 const val PAGE_TITLE = APP_NAME
 
@@ -25,11 +19,11 @@ const val FORM_FIELD_PASSWD_AGAIN = "password_again"
 
 fun Routing.web() {
 
-    homePage(HOME)
-    registrationPage(REGISTRATION)
+    homePage(Endpoint.HOME.url)
+    registrationPage(Endpoint.REGISTRATION.url)
 
     authenticate(AUTH_USER) {
-        get(LOGIN) {
+        get(Endpoint.LOGIN.url) {
             val user = call.authentication.principal
             call.respondText("Access secure area: $user")
         }

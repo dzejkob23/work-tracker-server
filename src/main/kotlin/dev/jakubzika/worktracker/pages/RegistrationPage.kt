@@ -2,10 +2,10 @@ package dev.jakubzika.worktracker.pages
 
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.db.Schema
+import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.FORM_FIELD_NAME
 import dev.jakubzika.worktracker.routing.FORM_FIELD_PASSWD
 import dev.jakubzika.worktracker.routing.FORM_FIELD_PASSWD_AGAIN
-import dev.jakubzika.worktracker.routing.REGISTRATION
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.http.*
@@ -55,7 +55,7 @@ fun Route.registrationPage(route: String) {
 
 fun FlowContent.registrationForm() {
     form(
-            action = REGISTRATION,
+            action = Endpoint.REGISTRATION.url,
             encType = FormEncType.applicationXWwwFormUrlEncoded,
             method = FormMethod.post
     ) {
