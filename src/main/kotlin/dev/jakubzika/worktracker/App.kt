@@ -16,7 +16,8 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
-import org.koin.core.context.startKoin
+import org.koin.ktor.ext.Koin
+import org.koin.logger.slf4jLogger
 import kotlin.collections.set
 
 /* 
@@ -41,9 +42,9 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused") // Referenced in application.conf
 fun Application.main() {
 
-    startKoin {
-        appModule
-        repositoryModule
+    install(Koin) {
+        slf4jLogger()
+        modules(appModule, repositoryModule)
     }
 
     install(DefaultHeaders)

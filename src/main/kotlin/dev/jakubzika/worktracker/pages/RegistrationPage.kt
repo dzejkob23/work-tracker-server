@@ -2,6 +2,7 @@ package dev.jakubzika.worktracker.pages
 
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.db.Schema
+import dev.jakubzika.worktracker.repository.UserRepository
 import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.FORM_FIELD_NAME
 import dev.jakubzika.worktracker.routing.FORM_FIELD_PASSWD
@@ -13,8 +14,12 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.html.*
+import org.koin.ktor.ext.inject
 
 fun Route.registrationPage(route: String) {
+
+    val userRepository : UserRepository by inject()
+
     route(route) {
         get {
             call.respondHtml {
@@ -36,17 +41,17 @@ fun Route.registrationPage(route: String) {
             val passwdAgain = parameters[FORM_FIELD_PASSWD_AGAIN]
                     ?: throw IllegalArgumentException("Missing parameter: password")
 
-            // todo - dokončit registraci uživatele
+            val user: Schema.User? = userRepository.findUser(username)
 
-            val user: Schema.User? = null //= db.findUserName(username)
-
-            if (passwd.equals(passwdAgain)) {
+            if (passwd == passwdAgain) {
                 call.respondText("Password did not matched.", contentType = ContentType.Text.Plain)
-            } else if (username != null && user == null) {
+            } else if (user == null) {
                 call.respondText("This username is already used.", contentType = ContentType.Text.Plain)
             } else {
                 if (AuthService.register(username, passwd)) {
                     call.respondText("Registration success.", contentType = ContentType.Text.Plain)
+                } else {
+                    call.respondText("Registration failed.", contentType = ContentType.Text.Plain)
                 }
             }
         }
