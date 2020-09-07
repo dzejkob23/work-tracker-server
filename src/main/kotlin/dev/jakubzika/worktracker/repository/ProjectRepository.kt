@@ -2,7 +2,7 @@ package dev.jakubzika.worktracker.repository
 
 import dev.jakubzika.worktracker.db.Schema.Project
 import dev.jakubzika.worktracker.db.Schema.Projects
-import dev.jakubzika.worktracker.extension.dbQuery
+import dev.jakubzika.worktracker.extensions.dbQuery
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select

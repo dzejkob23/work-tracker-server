@@ -5,6 +5,7 @@ val exposed_version: String by project
 val postgres_version: String by project
 val cassandra_version: String by project
 val hikari_version: String by project
+val koin_version: String by project
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
@@ -56,5 +57,10 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback", "logback-classic", logback_version)
+
+    // Koin
+    implementation("org.koin", "koin-core", koin_version)
+    implementation("org.koin", "koin-ktor", koin_version)
+    implementation("org.koin", "koin-logger-slf4j", koin_version)
 
 }

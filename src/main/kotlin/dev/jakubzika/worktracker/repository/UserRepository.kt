@@ -2,7 +2,7 @@ package dev.jakubzika.worktracker.repository
 
 import dev.jakubzika.worktracker.db.Schema.User
 import dev.jakubzika.worktracker.db.Schema.Users
-import dev.jakubzika.worktracker.extension.dbQuery
+import dev.jakubzika.worktracker.extensions.dbQuery
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.statements.InsertStatement
