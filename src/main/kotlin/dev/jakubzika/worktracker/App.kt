@@ -18,6 +18,7 @@ import io.ktor.sessions.*
 import io.ktor.util.*
 import org.koin.ktor.ext.Koin
 import org.koin.logger.slf4jLogger
+import org.slf4j.event.Level
 import kotlin.collections.set
 
 /* 
@@ -44,7 +45,7 @@ fun Application.main() {
 
     install(Koin) {
         slf4jLogger()
-        modules(appModule, repositoryModule)
+        modules(appModule, repositoryModule, controllerModule)
     }
 
     install(DefaultHeaders)
@@ -67,9 +68,7 @@ fun Application.main() {
         }
     }
 
-    install(ContentNegotiation) {
-        gson { /* Configre Jaskcon's ObjectMapper here */ }
-    }
+    install(ContentNegotiation) { gson { } }
 
     install(Authentication) {
         basic(AUTH_USER) {
