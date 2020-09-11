@@ -4,6 +4,7 @@ import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.auth.SESSION_NAME
 import dev.jakubzika.worktracker.modules.appModule
+import dev.jakubzika.worktracker.modules.controllerModule
 import dev.jakubzika.worktracker.modules.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
@@ -49,15 +50,21 @@ fun Application.main() {
     }
 
     install(DefaultHeaders)
-    install(CallLogging)
+    install(CallLogging) {
+        level = Level.DEBUG
+    }
 
     install(StatusPages) {
-        exception<Throwable> { e ->
+        // todo - add status pages
+        exception<NotFoundException> { e ->
             call.respondText(
                     e.localizedMessage,
                     ContentType.Text.Plain,
                     HttpStatusCode.InternalServerError
             )
+        }
+        exception<IllegalArgumentException> {
+            call.respond(HttpStatusCode.BadRequest)
         }
     }
 
