@@ -3,6 +3,7 @@ package dev.jakubzika.worktracker
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.auth.SESSION_NAME
+import dev.jakubzika.worktracker.controler.LoginController
 import dev.jakubzika.worktracker.modules.appModule
 import dev.jakubzika.worktracker.modules.controllerModule
 import dev.jakubzika.worktracker.modules.repositoryModule
@@ -18,6 +19,7 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
 import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.inject
 import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import kotlin.collections.set
@@ -46,7 +48,11 @@ fun Application.main() {
 
     install(Koin) {
         slf4jLogger()
-        modules(appModule, repositoryModule, controllerModule)
+        modules(
+                appModule,
+                repositoryModule,
+                controllerModule
+        )
     }
 
     install(DefaultHeaders)
@@ -81,7 +87,8 @@ fun Application.main() {
         basic(AUTH_USER) {
             realm = "Basic auth form"
             validate { credentials ->
-                AuthService.authenticate(credentials.name, credentials.password)
+                val loginController: LoginController by inject()
+                loginController.authenticate(credentials.name, credentials.password)
             }
         }
     }

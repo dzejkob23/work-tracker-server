@@ -1,6 +1,5 @@
 package dev.jakubzika.worktracker.auth
 
-import io.ktor.auth.*
 import io.ktor.util.*
 import java.security.SecureRandom
 import javax.crypto.SecretKeyFactory
@@ -21,8 +20,4 @@ object AuthService {
         return secretKeyFactory.generateSecret(pbKeySpec).encoded
     }
 
-    fun authenticate(username: String, passwd: String): Principal? {
-        // TODO
-        return UserIdPrincipal(username)
-    }
 }
