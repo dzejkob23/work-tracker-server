@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.modules
+package dev.jakubzika.worktracker.module
 
 import dev.jakubzika.worktracker.controler.LoginController
 import dev.jakubzika.worktracker.controler.LoginControllerImpl

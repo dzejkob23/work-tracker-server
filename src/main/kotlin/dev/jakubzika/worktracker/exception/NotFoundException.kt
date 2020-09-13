@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.exceptions
+package dev.jakubzika.worktracker.exception
 
 import java.lang.RuntimeException
 

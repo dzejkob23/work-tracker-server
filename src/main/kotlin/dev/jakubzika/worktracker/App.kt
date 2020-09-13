@@ -1,13 +1,12 @@
 package dev.jakubzika.worktracker
 
-import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.auth.SESSION_NAME
 import dev.jakubzika.worktracker.controler.LoginController
 import dev.jakubzika.worktracker.db.DatabaseClient
-import dev.jakubzika.worktracker.modules.appModule
-import dev.jakubzika.worktracker.modules.controllerModule
-import dev.jakubzika.worktracker.modules.repositoryModule
+import dev.jakubzika.worktracker.module.appModule
+import dev.jakubzika.worktracker.module.controllerModule
+import dev.jakubzika.worktracker.module.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
 import io.ktor.application.*
@@ -21,7 +20,6 @@ import io.ktor.sessions.*
 import io.ktor.util.*
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
-import org.koin.logger.slf4jLogger
 import org.slf4j.event.Level
 import kotlin.collections.set
 
