@@ -10,13 +10,13 @@ interface RegistrationController {
             userName: String?,
             password: String?,
             passwordAgain: String?
-    )
+    ): Schema.User?
 
 }
 
 class RegistrationControllerImpl(private val userRepository: UserRepository) : RegistrationController {
 
-    override suspend fun validateAndRegisterUser(userName: String?, password: String?, passwordAgain: String?) {
+    override suspend fun validateAndRegisterUser(userName: String?, password: String?, passwordAgain: String?): Schema.User? {
         userName ?: throw IllegalArgumentException("Missing parameter: username")
         password ?: throw IllegalArgumentException("Missing parameter: password")
         passwordAgain ?: throw IllegalArgumentException("Missing parameter: password")
@@ -28,6 +28,6 @@ class RegistrationControllerImpl(private val userRepository: UserRepository) : R
 
         val hashedPasswd = AuthService.encryptPBKDF2(password)
 
-        userRepository.addUser(userName, hashedPasswd.toString())
+        return userRepository.addUser(userName, hashedPasswd)
     }
 }

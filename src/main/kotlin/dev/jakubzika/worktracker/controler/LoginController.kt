@@ -19,7 +19,7 @@ class LoginControllerImpl(private val userRepository: UserRepository) : LoginCon
 
         return when {
             (user == null) -> null
-            (user.passwd.equals(hashedPassword)) -> UserIdPrincipal(userName)
+            (user.passwd.contentEquals(hashedPassword)) -> UserIdPrincipal(userName)
             else -> null
         }
     }

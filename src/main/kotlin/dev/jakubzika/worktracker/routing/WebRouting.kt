@@ -19,8 +19,8 @@ const val FORM_FIELD_PASSWD_AGAIN = "password_again"
 
 fun Routing.web() {
 
-    homePage(Endpoint.HOME.url)
-    registrationPage(Endpoint.REGISTRATION.url)
+    homePage()
+    registrationPage()
 
     authenticate(AUTH_USER) {
         get(Endpoint.LOGIN.url) {

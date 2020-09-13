@@ -8,8 +8,8 @@ object Schema {
     object Users : Table() {
         val id: Column<Int> = integer("id").autoIncrement()
         val nickname: Column<String> = varchar("nickname", 255)
-        val password: Column<String> = varchar("passwd", 255)
-    
+        val password: Column<ByteArray> = binary("passwd")
+
         override val primaryKey = PrimaryKey(id, name="PK_User_ID")
 
         fun toUser(row: ResultRow): User = User(
@@ -21,7 +21,7 @@ object Schema {
     data class User(
         val id: Int? = null, 
         val nickname: String,
-        val passwd: String
+        val passwd: ByteArray
     )
 
     /** PROJECTS */
@@ -53,10 +53,10 @@ object Schema {
     /** WORK SESSIONS */
     object WorkSessions : Table() {
         val id: Column<Int> = integer("id").autoIncrement()
-        val startTime: Column<String> = Projects.varchar("startTime", 255)
-        val endTime: Column<String> = Projects.varchar("endTime", 255)
-        val userId: Column<Int> = Projects.integer("userId").references(Users.id)
-        val projectId: Column<Int> = Projects.integer("projectId").references(Projects.id)
+        val startTime: Column<String> = varchar("startTime", 255)
+        val endTime: Column<String> = varchar("endTime", 255)
+        val userId: Column<Int> = integer("userId").references(Users.id)
+        val projectId: Column<Int> = integer("projectId").references(Projects.id)
 
         override val primaryKey = PrimaryKey(id, name="PK_WorkSession_ID")
 

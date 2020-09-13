@@ -4,6 +4,7 @@ import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.auth.SESSION_NAME
 import dev.jakubzika.worktracker.controler.LoginController
+import dev.jakubzika.worktracker.db.DatabaseClient
 import dev.jakubzika.worktracker.modules.appModule
 import dev.jakubzika.worktracker.modules.controllerModule
 import dev.jakubzika.worktracker.modules.repositoryModule
@@ -47,13 +48,15 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() {
 
     install(Koin) {
-        slf4jLogger()
         modules(
                 appModule,
                 repositoryModule,
                 controllerModule
         )
     }
+
+    val dbClient: DatabaseClient by inject()
+    dbClient.init()
 
     install(DefaultHeaders)
     install(CallLogging) {

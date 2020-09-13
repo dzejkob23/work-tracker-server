@@ -11,8 +11,8 @@ import kotlinx.html.*
 
 const val HOME_PAGE_TITLE = "Welcome to $APP_NAME"
 
-fun Routing.homePage(route: String) {
-    get(route) {
+fun Routing.homePage(endpoint: Endpoint = Endpoint.HOME) {
+    get(endpoint.url) {
         call.respondHtml {
             head {
                 title(PAGE_TITLE)

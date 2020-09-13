@@ -8,39 +8,41 @@ import dev.jakubzika.worktracker.routing.FORM_FIELD_PASSWD_AGAIN
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.request.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.html.*
 import org.koin.ktor.ext.inject
 
-fun Route.registrationPage(route: String) {
+fun Route.registrationPage(endpoint: Endpoint = Endpoint.REGISTRATION) {
 
     val registrationController : RegistrationController by inject()
 
-    route(route) {
+    route(endpoint.url) {
         get {
             call.respondHtml {
                 head {
                     title { +"Ktor: Registration Page" }
                 }
                 body {
-                    registrationForm()
+                    registrationForm(endpoint)
                 }
             }
         }
         post {
             val parameters = call.receiveParameters()
-            registrationController.validateAndRegisterUser(
+            val user = registrationController.validateAndRegisterUser(
                     parameters[FORM_FIELD_NAME],
                     parameters[FORM_FIELD_PASSWD],
                     parameters[FORM_FIELD_PASSWD_AGAIN]
             )
+            call.respond(user?.toString() ?: "Something is wrong.")
         }
     }
 }
 
-fun FlowContent.registrationForm() {
+fun FlowContent.registrationForm(endpoint: Endpoint) {
     form(
-            action = Endpoint.REGISTRATION.url,
+            action = endpoint.url,
             encType = FormEncType.applicationXWwwFormUrlEncoded,
             method = FormMethod.post
     ) {
