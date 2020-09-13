@@ -3,7 +3,10 @@ package dev.jakubzika.worktracker
 import dev.jakubzika.worktracker.auth.AuthService
 import dev.jakubzika.worktracker.auth.MySession
 import dev.jakubzika.worktracker.auth.SESSION_NAME
+import dev.jakubzika.worktracker.controler.LoginController
+import dev.jakubzika.worktracker.db.DatabaseClient
 import dev.jakubzika.worktracker.modules.appModule
+import dev.jakubzika.worktracker.modules.controllerModule
 import dev.jakubzika.worktracker.modules.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
@@ -17,7 +20,9 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.util.*
 import org.koin.ktor.ext.Koin
+import org.koin.ktor.ext.inject
 import org.koin.logger.slf4jLogger
+import org.slf4j.event.Level
 import kotlin.collections.set
 
 /* 
@@ -43,20 +48,32 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.main() {
 
     install(Koin) {
-        slf4jLogger()
-        modules(appModule, repositoryModule)
+        modules(
+                appModule,
+                repositoryModule,
+                controllerModule
+        )
     }
 
+    val dbClient: DatabaseClient by inject()
+    dbClient.init()
+
     install(DefaultHeaders)
-    install(CallLogging)
+    install(CallLogging) {
+        level = Level.DEBUG
+    }
 
     install(StatusPages) {
-        exception<Throwable> { e ->
+        // todo - add status pages
+        exception<NotFoundException> { e ->
             call.respondText(
                     e.localizedMessage,
                     ContentType.Text.Plain,
                     HttpStatusCode.InternalServerError
             )
+        }
+        exception<IllegalArgumentException> {
+            call.respond(HttpStatusCode.BadRequest)
         }
     }
 
@@ -67,15 +84,14 @@ fun Application.main() {
         }
     }
 
-    install(ContentNegotiation) {
-        gson { /* Configre Jaskcon's ObjectMapper here */ }
-    }
+    install(ContentNegotiation) { gson { } }
 
     install(Authentication) {
         basic(AUTH_USER) {
             realm = "Basic auth form"
             validate { credentials ->
-                AuthService.authenticate(credentials.name, credentials.password)
+                val loginController: LoginController by inject()
+                loginController.authenticate(credentials.name, credentials.password)
             }
         }
     }

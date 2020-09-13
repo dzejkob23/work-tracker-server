@@ -8,12 +8,13 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseClient {
 
-    init {
+    fun init() {
         Database.connect(hikari())
 
         transaction {
             SchemaUtils.create(Schema.Users)
             SchemaUtils.create(Schema.Projects)
+            SchemaUtils.create(Schema.WorkSessions)
         }
     }
 
