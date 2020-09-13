@@ -14,13 +14,13 @@ class LoginControllerImpl(private val userRepository: UserRepository) : LoginCon
 
     override suspend fun authenticate(userName: String, password: String): Principal? {
 
-        val hashedPassword = AuthService.encryptPBKDF2(password)
-        val user = userRepository.findUser(userName)
+        val user = userRepository.findUser(userName) ?: return null
+        val hash = AuthService.encryptPBKDF2(password, user.salt)
 
-        return when {
-            (user == null) -> null
-            (user.passwd.contentEquals(hashedPassword)) -> UserIdPrincipal(userName)
-            else -> null
+        return if (user.passwd.contentEquals(hash.first)) {
+            UserIdPrincipal(userName)
+        } else {
+            null
         }
     }
 

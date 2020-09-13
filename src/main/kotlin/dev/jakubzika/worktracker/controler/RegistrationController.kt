@@ -26,8 +26,8 @@ class RegistrationControllerImpl(private val userRepository: UserRepository) : R
         if (password != passwordAgain) throw IllegalArgumentException("Password did not matched.")
         if (user != null) throw IllegalArgumentException("This username is already used.")
 
-        val hashedPasswd = AuthService.encryptPBKDF2(password)
+        val passwd = AuthService.encryptPBKDF2(password)
 
-        return userRepository.addUser(userName, hashedPasswd)
+        return userRepository.addUser(userName, passwd.first, passwd.second)
     }
 }

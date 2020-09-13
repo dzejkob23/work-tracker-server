@@ -8,16 +8,19 @@ import javax.crypto.spec.PBEKeySpec
 object AuthService {
 
     @OptIn(InternalAPI::class)
-    fun encryptPBKDF2(password: String): ByteArray {
+    fun encryptPBKDF2(password: String, salt: ByteArray? = null): Pair<ByteArray, ByteArray> {
 
-        val random = SecureRandom()
-        val salt = ByteArray(256)
-        random.nextBytes(salt)
+        val usedSalt: ByteArray = if (salt == null) {
+            val random = SecureRandom()
+            val tmpSalt = ByteArray(256)
+            random.nextBytes(tmpSalt)
+            tmpSalt
+        } else { salt }
 
-        val pbKeySpec = PBEKeySpec(password.toCharArray(), salt, 65536, 256)
+        val pbKeySpec = PBEKeySpec(password.toCharArray(), usedSalt, 65536, 256)
         val secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
 
-        return secretKeyFactory.generateSecret(pbKeySpec).encoded
+        return Pair(secretKeyFactory.generateSecret(pbKeySpec).encoded, usedSalt)
     }
 
 }

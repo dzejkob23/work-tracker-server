@@ -9,19 +9,22 @@ object Schema {
         val id: Column<Int> = integer("id").autoIncrement()
         val nickname: Column<String> = varchar("nickname", 255)
         val password: Column<ByteArray> = binary("passwd")
+        val salt: Column<ByteArray> = binary("salt")
 
         override val primaryKey = PrimaryKey(id, name="PK_User_ID")
 
         fun toUser(row: ResultRow): User = User(
                 id = row[id],
                 nickname = row[nickname],
-                passwd = row[password]
+                passwd = row[password],
+                salt = row[salt]
         )
     }
     data class User(
         val id: Int? = null, 
         val nickname: String,
-        val passwd: ByteArray
+        val passwd: ByteArray,
+        val salt: ByteArray
     )
 
     /** PROJECTS */
