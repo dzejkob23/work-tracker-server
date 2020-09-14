@@ -1,12 +1,9 @@
 package dev.jakubzika.worktracker.routing
 
 import dev.jakubzika.worktracker.APP_NAME
-import dev.jakubzika.worktracker.AUTH_USER
-import dev.jakubzika.worktracker.pages.homePage
-import dev.jakubzika.worktracker.pages.registrationPage
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.response.*
+import dev.jakubzika.worktracker.page.homePage
+import dev.jakubzika.worktracker.page.loginPage
+import dev.jakubzika.worktracker.page.registrationPage
 import io.ktor.routing.*
 
 // Web common constants
@@ -21,11 +18,6 @@ fun Routing.web() {
 
     homePage()
     registrationPage()
+    loginPage()
 
-    authenticate(AUTH_USER) {
-        get(Endpoint.LOGIN.url) {
-            val user = call.authentication.principal
-            call.respondText("Access secure area: $user")
-        }
-    }
 }
