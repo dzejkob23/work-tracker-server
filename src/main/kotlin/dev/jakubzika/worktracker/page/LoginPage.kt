@@ -28,7 +28,7 @@ fun Routing.loginPage(endpoint: Endpoint = Endpoint.LOGIN) {
             call.respondHtmlTemplate(
                     DoneTemplate(
                             doneTitle = "Access secure area: ${userLoginPrincipal.userName}",
-                            onContinueRoute = Endpoint.HOME
+                            continueRoute = Endpoint.HOME
                     )
             ) { }
         }

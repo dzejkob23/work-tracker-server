@@ -6,7 +6,7 @@ import kotlinx.html.*
 
 class DoneTemplate(
         private val main: MainTemplate = MainTemplate(),
-        private val onContinueRoute: Endpoint,
+        private val continueRoute: Endpoint,
         private val doneTitle: String
 
 ) : Template<HTML> {
@@ -18,7 +18,7 @@ class DoneTemplate(
                 }
                 p {
                     form(
-                            action = onContinueRoute.url,
+                            action = continueRoute.url,
                             encType = FormEncType.textPlain,
                             method = FormMethod.get
                     ) {
