@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.pages
+package dev.jakubzika.worktracker.page
 
 import dev.jakubzika.worktracker.controler.RegistrationController
 import dev.jakubzika.worktracker.routing.Endpoint
@@ -59,7 +59,7 @@ fun FlowContent.registrationForm(endpoint: Endpoint) {
             passwordInput(name = FORM_FIELD_PASSWD_AGAIN)
         }
         p {
-            submitInput { value = "Login" }
+            submitInput { value = "Register" }
         }
     }
 }

@@ -1,7 +1,7 @@
 package dev.jakubzika.worktracker
 
-import dev.jakubzika.worktracker.auth.MySession
-import dev.jakubzika.worktracker.auth.SESSION_NAME
+import dev.jakubzika.worktracker.auth.SessionLogin
+import dev.jakubzika.worktracker.auth.SESSION_LOGIN_NAME
 import dev.jakubzika.worktracker.controler.LoginController
 import dev.jakubzika.worktracker.db.DatabaseClient
 import dev.jakubzika.worktracker.module.appModule
@@ -77,9 +77,7 @@ fun Application.main() {
 
     // todo - zapojit do akce
     install(Sessions) {
-        cookie<MySession>(SESSION_NAME) {
-            cookie.extensions["SameSite"] = "lax"
-        }
+        cookie<SessionLogin>(SESSION_LOGIN_NAME)
     }
 
     install(ContentNegotiation) { gson { } }

@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.pages
+package dev.jakubzika.worktracker.page
 
 import dev.jakubzika.worktracker.APP_NAME
 import dev.jakubzika.worktracker.routing.Endpoint

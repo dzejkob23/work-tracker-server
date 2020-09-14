@@ -1,5 +1,6 @@
 package dev.jakubzika.worktracker.auth
 
+import io.ktor.auth.*
 import io.ktor.util.*
 import java.security.SecureRandom
 import javax.crypto.SecretKeyFactory
@@ -23,4 +24,8 @@ object AuthService {
         return Pair(secretKeyFactory.generateSecret(pbKeySpec).encoded, usedSalt)
     }
 
+    data class UserLoginPrincipal(
+            val userName: String,
+            val userId: Int
+    ) : Principal
 }

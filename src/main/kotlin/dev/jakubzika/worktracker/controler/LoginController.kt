@@ -18,7 +18,7 @@ class LoginControllerImpl(private val userRepository: UserRepository) : LoginCon
         val hash = AuthService.encryptPBKDF2(password, user.salt)
 
         return if (user.passwd.contentEquals(hash.first)) {
-            UserIdPrincipal(userName)
+            AuthService.UserLoginPrincipal(userName = user.nickname, userId = user.id!!)
         } else {
             null
         }
