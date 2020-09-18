@@ -11,6 +11,7 @@ import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.content.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
@@ -62,7 +63,9 @@ fun Application.main() {
     }
 
     install(StatusPages) {
-        // todo - add status pages
+        // fixme - it must be finalized to custom usability
+        // it is possible catch exception and respond text
+        // then must be these exception paired to custom StatusCodePages repsonses
         exception<NotFoundException> { e ->
             call.respondText(
                     e.localizedMessage,
@@ -73,6 +76,18 @@ fun Application.main() {
         exception<IllegalArgumentException> {
             call.respond(HttpStatusCode.BadRequest)
         }
+
+        // show error html
+        // status code replace # in "error#.html"
+        // so there will be codes redirected on pages error404.html and error401.html
+        statusFile(HttpStatusCode.NotFound, HttpStatusCode.Unauthorized, filePattern = "error#.html")
+
+        // or catch status code alone and do own action
+        status(HttpStatusCode.InternalServerError) {
+            call.respond(TextContent("${it.value} ${it.description}", ContentType.Text.Plain.withCharset(Charsets.UTF_8), it))
+        }
+
+        // more about StatusPages: https://ktor.io/docs/status-pages.html#exceptions
     }
 
     // todo - zapojit do akce
