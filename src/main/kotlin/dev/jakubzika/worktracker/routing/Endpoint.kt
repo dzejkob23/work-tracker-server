@@ -46,6 +46,10 @@ enum class Endpoint {
     REGISTRATION {
         override val url: String
             get() = "/registration"
+    },
+    LOGOUT {
+        override val url: String
+            get() = "/logout"
     };
 
     abstract val url: String

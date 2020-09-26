@@ -1,6 +1,7 @@
-package dev.jakubzika.worktracker.pages
+package dev.jakubzika.worktracker.page
 
 import dev.jakubzika.worktracker.controler.RegistrationController
+import dev.jakubzika.worktracker.page.template.MainTemplate
 import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.FORM_FIELD_NAME
 import dev.jakubzika.worktracker.routing.FORM_FIELD_PASSWD
@@ -20,11 +21,11 @@ fun Route.registrationPage(endpoint: Endpoint = Endpoint.REGISTRATION) {
     route(endpoint.url) {
         get {
             call.respondHtml {
-                head {
-                    title { +"Ktor: Registration Page" }
-                }
-                body {
-                    registrationForm(endpoint)
+                insert(MainTemplate()) {
+                    content {
+                        h1 { +"Ktor: Registration Page" }
+                        registrationForm(endpoint)
+                    }
                 }
             }
         }
@@ -40,7 +41,7 @@ fun Route.registrationPage(endpoint: Endpoint = Endpoint.REGISTRATION) {
     }
 }
 
-fun FlowContent.registrationForm(endpoint: Endpoint) {
+private fun FlowContent.registrationForm(endpoint: Endpoint) {
     form(
             action = endpoint.url,
             encType = FormEncType.applicationXWwwFormUrlEncoded,
@@ -59,7 +60,7 @@ fun FlowContent.registrationForm(endpoint: Endpoint) {
             passwordInput(name = FORM_FIELD_PASSWD_AGAIN)
         }
         p {
-            submitInput { value = "Login" }
+            submitInput { value = "Register" }
         }
     }
 }

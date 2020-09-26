@@ -1,4 +1,4 @@
-package dev.jakubzika.worktracker.pages.template
+package dev.jakubzika.worktracker.page.template
 
 import dev.jakubzika.worktracker.routing.PAGE_TITLE
 import io.ktor.html.*

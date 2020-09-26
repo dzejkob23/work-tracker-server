@@ -1,11 +1,15 @@
 package dev.jakubzika.worktracker.auth
 
+import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.sessions.*
 import io.ktor.util.*
+import io.ktor.util.pipeline.*
 import java.security.SecureRandom
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 
-object AuthService {
+object Security {
 
     @OptIn(InternalAPI::class)
     fun encryptPBKDF2(password: String, salt: ByteArray? = null): Pair<ByteArray, ByteArray> {
@@ -23,4 +27,14 @@ object AuthService {
         return Pair(secretKeyFactory.generateSecret(pbKeySpec).encoded, usedSalt)
     }
 
+    data class UserLoginPrincipal(
+            val userName: String,
+            val userId: Int
+    ) : Principal
 }
+
+fun PipelineContext<Unit, ApplicationCall>.isUserAuthorized(): Boolean
+        = call.sessions.get<SessionLogin>() != null
+
+fun PipelineContext<Unit, ApplicationCall>.logoutUser()
+        = call.sessions.clear<SessionLogin>()
