@@ -5,6 +5,7 @@ import io.ktor.html.*
 import kotlinx.html.*
 
 class MainTemplate : Template<HTML> {
+
     val content = Placeholder<HtmlBlockTag>()
 
     override fun HTML.apply() {
