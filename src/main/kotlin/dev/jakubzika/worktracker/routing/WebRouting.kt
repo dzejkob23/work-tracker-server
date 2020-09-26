@@ -3,6 +3,7 @@ package dev.jakubzika.worktracker.routing
 import dev.jakubzika.worktracker.APP_NAME
 import dev.jakubzika.worktracker.page.homePage
 import dev.jakubzika.worktracker.page.loginPage
+import dev.jakubzika.worktracker.page.logoutPage
 import dev.jakubzika.worktracker.page.registrationPage
 import io.ktor.routing.*
 
@@ -19,5 +20,6 @@ fun Routing.web() {
     homePage()
     registrationPage()
     loginPage()
+    logoutPage()
 
 }
