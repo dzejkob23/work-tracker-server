@@ -11,6 +11,10 @@ class MainTemplate : Template<HTML> {
     override fun HTML.apply() {
         head {
             title(PAGE_TITLE)
+            link(
+                    href = "/static/styles.css",
+                    rel = "stylesheet"
+            )
         }
         body {
             insert(content)
