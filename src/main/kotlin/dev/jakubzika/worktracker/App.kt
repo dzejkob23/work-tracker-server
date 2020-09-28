@@ -2,7 +2,6 @@ package dev.jakubzika.worktracker
 
 import dev.jakubzika.worktracker.auth.SESSION_LOGIN_NAME
 import dev.jakubzika.worktracker.auth.SessionLogin
-import dev.jakubzika.worktracker.controler.LoginController
 import dev.jakubzika.worktracker.db.DatabaseClient
 import dev.jakubzika.worktracker.module.appModule
 import dev.jakubzika.worktracker.module.controllerModule
@@ -10,7 +9,6 @@ import dev.jakubzika.worktracker.module.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
 import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
@@ -79,16 +77,6 @@ fun Application.main() {
     }
 
     install(ContentNegotiation) { gson { } }
-
-    install(Authentication) {
-        basic(AUTH_USER) {
-            realm = "Basic auth form"
-            validate { credentials ->
-                val loginController: LoginController by inject()
-                loginController.authenticate(credentials.name, credentials.password)
-            }
-        }
-    }
 
     install(Routing) {
         api()
