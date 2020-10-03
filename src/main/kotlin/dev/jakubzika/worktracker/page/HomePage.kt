@@ -61,13 +61,39 @@ private fun mainView(main: MainTemplate = MainTemplate()) = object : Template<HT
     override fun HTML.apply() {
         insert(main) {
             content {
-                p {
-                    form(
-                            action = Endpoint.LOGOUT.url,
-                            encType = FormEncType.textPlain,
-                            method = FormMethod.get
-                    ) {
-                        submitInput { value = "Logout" }
+                main {
+                    header {
+                        h1 { +"Work-Tracker" }
+                    }
+                    div(classes = "flex-container") {
+                        section(classes = "card") {
+                            h2 { +"Měření" }
+                            p { +"00h 00m 00s" }
+                            button(classes = "buttonPrimary") { +"Start" }
+                            button(classes = "buttonPrimary") { +"Stop & Save" }
+                            button(classes = "buttonPrimary") { +"Restart" }
+                        }
+                        section(classes = "card") {
+                            h2 { +"Profil" }
+                            p { +"Jakub Zíka" }
+                            p { +"Nastavení" }
+                            p {
+                                form(
+                                        action = Endpoint.LOGOUT.url,
+                                        encType = FormEncType.textPlain,
+                                        method = FormMethod.get
+                                ) {
+                                    submitInput(classes = "buttonPrimary") { value = "Logout" }
+                                }
+                            }
+                        }
+                        section(classes = "card") {
+                            h2 { +"Statistiky" }
+                            h3 { +"Denní" }
+                            h3 { +"Týdenní" }
+                            h3 { +"Měsíční" }
+                            h3 { +"Roční" }
+                        }
                     }
                 }
             }

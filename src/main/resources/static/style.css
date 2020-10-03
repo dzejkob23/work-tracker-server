@@ -1,0 +1,67 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #000000;
+  background-color: #FFFFFF;
+}
+
+body header h1 {
+  color: #666666;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+body main {
+  width: 80%;
+  margin: auto;
+}
+
+body main div.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  body main div.flex-container {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+}
+
+body main section.card {
+  background-color: #FFFFFF;
+  padding: 20px;
+  margin: 1em auto;
+  border-radius: 32px;
+  -webkit-box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+}
+
+body .buttonPrimary {
+  width: 116px;
+  height: 36px;
+  background-color: #98F2CD;
+  border-radius: 8px;
+  border: none;
+  color: #000000;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+/*# sourceMappingURL=style.css.map */
