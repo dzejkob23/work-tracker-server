@@ -1,5 +1,6 @@
 package dev.jakubzika.worktracker.page.template
 
+import dev.jakubzika.worktracker.APP_NAME
 import dev.jakubzika.worktracker.routing.PAGE_TITLE
 import io.ktor.html.*
 import kotlinx.html.*
@@ -11,10 +12,15 @@ class MainTemplate : Template<HTML> {
     override fun HTML.apply() {
         head {
             title(PAGE_TITLE)
-            link(href = "/static/styles.css", rel = "stylesheet")
+            link(href = "/static/style.css", rel = "stylesheet")
         }
         body {
-            insert(content)
+            header {
+                h1 { +APP_NAME }
+            }
+            main {
+                insert(content)
+            }
         }
     }
 }

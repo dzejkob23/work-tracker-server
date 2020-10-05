@@ -32,9 +32,7 @@ import org.slf4j.event.Level
  * gradle clean build run
  */
 
-const val APP_NAME = "WorkTracker"
-
-const val AUTH_USER = "userAuth"
+const val APP_NAME = "Work-Tracker"
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 

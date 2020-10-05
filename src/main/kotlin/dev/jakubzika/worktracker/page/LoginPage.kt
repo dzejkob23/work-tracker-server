@@ -25,14 +25,7 @@ fun Routing.loginPage(endpoint: Endpoint = Endpoint.LOGIN) {
             if (isUserAuthorized()) {
                 call.respondRedirect(Endpoint.HOME.url)
             } else {
-                call.respondHtml {
-                    insert(MainTemplate()) {
-                        content {
-                            h1 { + "Login page" }
-                            loginForm(endpoint)
-                        }
-                    }
-                }
+                call.respondHtmlTemplate(loginView(endpoint = endpoint)) {}
             }
         }
         post {
@@ -56,22 +49,31 @@ fun Routing.loginPage(endpoint: Endpoint = Endpoint.LOGIN) {
     }
 }
 
-private fun FlowContent.loginForm(endpoint: Endpoint) {
-    form(
-            action = endpoint.url,
-            encType = FormEncType.applicationXWwwFormUrlEncoded,
-            method = FormMethod.post
-    ) {
-        p {
-            +"User name: "
-            textInput(name = FORM_FIELD_NAME)
-        }
-        p {
-            +"Password: "
-            passwordInput(name = FORM_FIELD_PASSWD)
-        }
-        p {
-            submitInput { value = "Login" }
+private fun loginView(main: MainTemplate = MainTemplate(), endpoint: Endpoint) = object : Template<HTML> {
+    override fun HTML.apply() {
+        insert(main) {
+            content {
+                div(classes = "flex-vertical") {
+                    h1 { + "Login page" }
+                    form(
+                            action = endpoint.url,
+                            encType = FormEncType.applicationXWwwFormUrlEncoded,
+                            method = FormMethod.post
+                    ) {
+                        p {
+                            +"User name: "
+                            textInput(name = FORM_FIELD_NAME)
+                        }
+                        p {
+                            +"Password: "
+                            passwordInput(name = FORM_FIELD_PASSWD)
+                        }
+                        p {
+                            submitInput(classes = "buttonPrimary") { value = "Login" }
+                        }
+                    }
+                }
+            }
         }
     }
 }
