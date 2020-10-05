@@ -71,13 +71,20 @@ body .buttonPrimary {
   width: 116px;
   height: 36px;
   background-color: #98F2CD;
+  color: #000000;
   border-radius: 8px;
   border: none;
+  outline: none;
   color: #000000;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
+}
+
+body .buttonPrimary:hover {
+  background-color: #15a96c;
+  color: #FFFFFF;
 }
 /*# sourceMappingURL=style.css.map */

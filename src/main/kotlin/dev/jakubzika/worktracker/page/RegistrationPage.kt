@@ -20,14 +20,7 @@ fun Route.registrationPage(endpoint: Endpoint = Endpoint.REGISTRATION) {
 
     route(endpoint.url) {
         get {
-            call.respondHtml {
-                insert(MainTemplate()) {
-                    content {
-                        h1 { +"Ktor: Registration Page" }
-                        registrationForm(endpoint)
-                    }
-                }
-            }
+            call.respondHtmlTemplate(registrationView(endpoint = endpoint)) {}
         }
         post {
             val parameters = call.receiveParameters()
@@ -41,26 +34,35 @@ fun Route.registrationPage(endpoint: Endpoint = Endpoint.REGISTRATION) {
     }
 }
 
-private fun FlowContent.registrationForm(endpoint: Endpoint) {
-    form(
-            action = endpoint.url,
-            encType = FormEncType.applicationXWwwFormUrlEncoded,
-            method = FormMethod.post
-    ) {
-        p {
-            +"User name: "
-            textInput(name = FORM_FIELD_NAME)
-        }
-        p {
-            +"Password: "
-            passwordInput(name = FORM_FIELD_PASSWD)
-        }
-        p {
-            +"Password again: "
-            passwordInput(name = FORM_FIELD_PASSWD_AGAIN)
-        }
-        p {
-            submitInput { value = "Register" }
+private fun registrationView(main: MainTemplate = MainTemplate(), endpoint: Endpoint) = object : Template<HTML> {
+    override fun HTML.apply() {
+        insert(main) {
+            content {
+                div(classes = "flex-vertical") {
+                    h1 { +"Registration Page" }
+                    form(
+                            action = endpoint.url,
+                            encType = FormEncType.applicationXWwwFormUrlEncoded,
+                            method = FormMethod.post
+                    ) {
+                        p {
+                            +"User name: "
+                            textInput(name = FORM_FIELD_NAME)
+                        }
+                        p {
+                            +"Password: "
+                            passwordInput(name = FORM_FIELD_PASSWD)
+                        }
+                        p {
+                            +"Password again: "
+                            passwordInput(name = FORM_FIELD_PASSWD_AGAIN)
+                        }
+                        p {
+                            submitInput(classes = "buttonPrimary") { value = "Register" }
+                        }
+                    }
+                }
+            }
         }
     }
 }

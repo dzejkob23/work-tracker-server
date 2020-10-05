@@ -7,6 +7,8 @@ $colors: (
     
     text: #000000,
     text-secondary: lighten(#000000, 40%),
+    text-button: #000000,
+    text-button-hover: #FFFFFF,
 
     card: #FFFFFF
 );
@@ -38,22 +40,23 @@ body {
         width: 80%;
         margin: auto;
 
-        div.flex-horizontal {
-            display: flex;
-            justify-content: center;
-            align-items: center;   
-            flex-direction: column;
-            @include desktop {
-                flex-direction: row;
-                flex-wrap: wrap;
+        div.flex {
+            &-horizontal {
+                display: flex;
+                justify-content: center;
+                align-items: center;   
+                flex-direction: column;
+                @include desktop {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
             }
-        }
-
-        div.flex-vertical {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            &-vertical {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
         }
 
         section.card {
@@ -69,13 +72,19 @@ body {
         width: 116px;
         height: 36px;
         background-color: color(primary);
+        color: color(text-button);
         border-radius: 8px;
         border: none;
+        outline: none;
         color: color(text);
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
         margin: 4px 2px;
+        &:hover {
+            background-color: color(primary-dark);
+            color: color(text-button-hover);
+        }
     }
 }
