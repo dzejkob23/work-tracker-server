@@ -15,7 +15,7 @@ body main {
   margin: auto;
 }
 
-body main div.flex-container {
+body main div.flex-horizontal {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -32,7 +32,7 @@ body main div.flex-container {
 }
 
 @media (min-width: 1024px) {
-  body main div.flex-container {
+  body main div.flex-horizontal {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -40,6 +40,22 @@ body main div.flex-container {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
   }
+}
+
+body main div.flex-vertical {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 body main section.card {

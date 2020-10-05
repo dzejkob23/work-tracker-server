@@ -38,7 +38,7 @@ body {
         width: 80%;
         margin: auto;
 
-        div.flex-container {
+        div.flex-horizontal {
             display: flex;
             justify-content: center;
             align-items: center;   
@@ -47,6 +47,13 @@ body {
                 flex-direction: row;
                 flex-wrap: wrap;
             }
+        }
+
+        div.flex-vertical {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         section.card {
