@@ -53,6 +53,9 @@ private fun unauthorizedView(main: MainTemplate = MainTemplate()) = object : Tem
 private fun mainView(main: MainTemplate = MainTemplate()) = object : Template<HTML> {
     override fun HTML.apply() {
         insert(main) {
+            headers {
+                script { src = "/static/js/utils.js" }
+            }
             content {
                 div(classes = "flex-horizontal") {
                     section(classes = "card") {
