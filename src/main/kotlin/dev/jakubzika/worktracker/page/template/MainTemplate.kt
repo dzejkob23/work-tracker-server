@@ -7,12 +7,14 @@ import kotlinx.html.*
 
 class MainTemplate : Template<HTML> {
 
+    val headers = Placeholder<HtmlHeadTag>()
     val content = Placeholder<HtmlBlockTag>()
 
     override fun HTML.apply() {
         head {
             title(PAGE_TITLE)
-            link(href = "/static/style.css", rel = "stylesheet")
+            link(href = "/static/css/style.css", rel = "stylesheet")
+            insert(headers)
         }
         body {
             header {
