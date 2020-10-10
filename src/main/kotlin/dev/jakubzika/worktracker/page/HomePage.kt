@@ -1,6 +1,9 @@
 package dev.jakubzika.worktracker.page
 
 import dev.jakubzika.worktracker.auth.isUserAuthorized
+import dev.jakubzika.worktracker.page.section.ProfileSection
+import dev.jakubzika.worktracker.page.section.StatisticSection
+import dev.jakubzika.worktracker.page.section.TrackingSectionTemplate
 import dev.jakubzika.worktracker.page.template.MainTemplate
 import dev.jakubzika.worktracker.routing.Endpoint
 import io.ktor.application.*
@@ -58,34 +61,9 @@ private fun mainView(main: MainTemplate = MainTemplate()) = object : Template<HT
             }
             content {
                 div(classes = "flex-horizontal") {
-                    section(classes = "card") {
-                        h2 { +"Měření" }
-                        p { +"00h 00m 00s" }
-                        button(classes = "buttonPrimary") { +"Start" }
-                        button(classes = "buttonPrimary") { +"Stop & Save" }
-                        button(classes = "buttonPrimary") { +"Restart" }
-                    }
-                    section(classes = "card") {
-                        h2 { +"Profil" }
-                        p { +"Jakub Zíka" }
-                        p { +"Nastavení" }
-                        p {
-                            form(
-                                    action = Endpoint.LOGOUT.url,
-                                    encType = FormEncType.textPlain,
-                                    method = FormMethod.get
-                            ) {
-                                submitInput(classes = "buttonPrimary") { value = "Logout" }
-                            }
-                        }
-                    }
-                    section(classes = "card") {
-                        h2 { +"Statistiky" }
-                        h3 { +"Denní" }
-                        h3 { +"Týdenní" }
-                        h3 { +"Měsíční" }
-                        h3 { +"Roční" }
-                    }
+                    insert(TrackingSectionTemplate()) {}
+                    insert(ProfileSection()) {}
+                    insert(StatisticSection()) {}
                 }
             }
         }
