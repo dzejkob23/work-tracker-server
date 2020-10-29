@@ -12,18 +12,18 @@ interface WorkSessionRepository {
     suspend fun addWorkSession(
             startTime: String,
             endTime: String,
-            userId: Int,
-            projectId: Int
+            userId: Long,
+            projectId: Long
     ): WorkSession?
-    suspend fun findWorkSession(workSessionId: Int): WorkSession?
-    suspend fun finUsersWorkSessions(userId: Int): List<WorkSession>
-    suspend fun deleteWorkSession(workSessionId: Int)
-    suspend fun deleteUsersWorkSessions(userId: Int)
+    suspend fun findWorkSession(workSessionId: Long): WorkSession?
+    suspend fun findUsersWorkSessions(userId: Long): List<WorkSession>
+    suspend fun deleteWorkSession(workSessionId: Long)
+    suspend fun deleteUsersWorkSessions(userId: Long)
 }
 
 class WorkSessionRepositoryImpl : WorkSessionRepository {
 
-    override suspend fun addWorkSession(startTime: String, endTime: String, userId: Int, projectId: Int): WorkSession? {
+    override suspend fun addWorkSession(startTime: String, endTime: String, userId: Long, projectId: Long): WorkSession? {
         var statement: InsertStatement<Number>? = null
         dbQuery {
             statement = WorkSessions.insert { workSession ->
@@ -36,21 +36,21 @@ class WorkSessionRepositoryImpl : WorkSessionRepository {
         return WorkSessions.toWorkSession(statement?.resultedValues?.get(0) ?: return null)
     }
 
-    override suspend fun findWorkSession(workSessionId: Int): WorkSession? = dbQuery {
+    override suspend fun findWorkSession(workSessionId: Long): WorkSession? = dbQuery {
         WorkSessions.select { WorkSessions.id.eq(workSessionId) }.map { WorkSessions.toWorkSession(it) }.singleOrNull()
     }
 
-    override suspend fun finUsersWorkSessions(userId: Int): List<WorkSession> = dbQuery {
+    override suspend fun findUsersWorkSessions(userId: Long): List<WorkSession> = dbQuery {
         WorkSessions.select { WorkSessions.userId.eq(userId) }.map { WorkSessions.toWorkSession(it) }
     }
 
-    override suspend fun deleteWorkSession(workSessionId: Int) {
+    override suspend fun deleteWorkSession(workSessionId: Long) {
         dbQuery {
             WorkSessions.deleteWhere { WorkSessions.id.eq(workSessionId) }
         }
     }
 
-    override suspend fun deleteUsersWorkSessions(userId: Int) {
+    override suspend fun deleteUsersWorkSessions(userId: Long) {
         dbQuery {
             WorkSessions.deleteWhere { WorkSessions.userId.eq(userId) }
         }

@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.statements.InsertStatement
 
 interface UserRepository {
     suspend fun addUser(nickname: String, password: ByteArray, salt: ByteArray): User?
-    suspend fun findUser(userId: Int): User?
+    suspend fun findUser(userId: Long): User?
     suspend fun findUser(nickname: String): User?
 }
 
@@ -27,7 +27,7 @@ class UserRepositoryImpl : UserRepository {
         return Users.toUser(statement?.resultedValues?.get(0) ?: return null)
     }
 
-    override suspend fun findUser(userId: Int): User? = dbQuery {
+    override suspend fun findUser(userId: Long): User? = dbQuery {
         Users.select { Users.id.eq(userId) }.map { Users.toUser(it) }.singleOrNull()
     }
 

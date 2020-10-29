@@ -6,7 +6,7 @@ object Schema {
 
     /** USERS */
     object Users : Table() {
-        val id: Column<Int> = integer("id").autoIncrement()
+        val id: Column<Long> = long("id").autoIncrement()
         val nickname: Column<String> = varchar("nickname", 255)
         val password: Column<ByteArray> = binary("passwd")
         val salt: Column<ByteArray> = binary("salt")
@@ -21,7 +21,7 @@ object Schema {
         )
     }
     data class User(
-        val id: Int? = null, 
+        val id: Long? = null,
         val nickname: String,
         val passwd: ByteArray,
         val salt: ByteArray
@@ -29,11 +29,11 @@ object Schema {
 
     /** PROJECTS */
     object Projects : Table() {
-        val id: Column<Int> = integer("id").autoIncrement()
+        val id: Column<Long> = long("id").autoIncrement()
         val name: Column<String> = varchar("name", 255)
         val startTime: Column<String> = varchar("startTime", 255)
         val endTime: Column<String> = varchar("endTime", 255)
-        val userId: Column<Int> = integer("userId").references(Users.id)
+        val userId: Column<Long> = long("userId").references(Users.id)
 
         override val primaryKey = PrimaryKey(id, name="PK_Project_ID")
 
@@ -46,20 +46,20 @@ object Schema {
         )
     }
     data class Project(
-        val id: Int? = null,
+        val id: Long? = null,
         val name: String,
         val startTime: String,
         val endTime: String,
-        val userId: Int
+        val userId: Long
     )
 
     /** WORK SESSIONS */
     object WorkSessions : Table() {
-        val id: Column<Int> = integer("id").autoIncrement()
+        val id: Column<Long> = long("id").autoIncrement()
         val startTime: Column<String> = varchar("startTime", 255)
         val endTime: Column<String> = varchar("endTime", 255)
-        val userId: Column<Int> = integer("userId").references(Users.id)
-        val projectId: Column<Int> = integer("projectId").references(Projects.id)
+        val userId: Column<Long> = long("userId").references(Users.id)
+        val projectId: Column<Long> = long("projectId").references(Projects.id)
 
         override val primaryKey = PrimaryKey(id, name="PK_WorkSession_ID")
 
@@ -72,10 +72,10 @@ object Schema {
         )
     }
     data class WorkSession(
-            val id: Int?,
+            val id: Long?,
             val startTime: String,
             val endTime: String,
-            val userId: Int,
-            val projectId: Int
+            val userId: Long,
+            val projectId: Long
     )
 }

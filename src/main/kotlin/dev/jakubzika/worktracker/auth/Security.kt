@@ -29,7 +29,7 @@ object Security {
 
     data class UserLoginPrincipal(
             val userName: String,
-            val userId: Int
+            val userId: Long
     ) : Principal
 }
 

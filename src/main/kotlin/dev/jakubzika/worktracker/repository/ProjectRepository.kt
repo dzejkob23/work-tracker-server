@@ -13,12 +13,12 @@ interface ProjectRepository {
             name: String,
             startTime: String,
             endTime: String,
-            userId: Int
+            userId: Long
     ): Project?
-    suspend fun findProject(projectId: Int): Project?
-    suspend fun findUsersProjects(userId: Int): List<Project>
-    suspend fun deleteProject(projectId: Int)
-    suspend fun deleteUsersProjects(userId: Int)
+    suspend fun findProject(projectId: Long): Project?
+    suspend fun findUsersProjects(userId: Long): List<Project>
+    suspend fun deleteProject(projectId: Long)
+    suspend fun deleteUsersProjects(userId: Long)
 }
 
 class ProjectRepositoryImpl : ProjectRepository {
@@ -27,7 +27,7 @@ class ProjectRepositoryImpl : ProjectRepository {
             name: String,
             startTime: String,
             endTime: String,
-            userId: Int
+            userId: Long
     ): Project? {
         var statement: InsertStatement<Number>? = null
         dbQuery {
@@ -41,21 +41,21 @@ class ProjectRepositoryImpl : ProjectRepository {
         return Projects.toProject(statement?.resultedValues?.get(0) ?: return null)
     }
 
-    override suspend fun findProject(projectId: Int): Project? = dbQuery {
+    override suspend fun findProject(projectId: Long): Project? = dbQuery {
         Projects.select { Projects.id.eq(projectId) }.map { Projects.toProject(it) }.singleOrNull()
     }
 
-    override suspend fun findUsersProjects(userId: Int): List<Project> {
+    override suspend fun findUsersProjects(userId: Long): List<Project> {
         return Projects.select { Projects.userId.eq(userId) }.map { Projects.toProject(it) }
     }
 
-    override suspend fun deleteProject(projectId: Int) {
+    override suspend fun deleteProject(projectId: Long) {
         dbQuery {
             Projects.deleteWhere { Projects.id.eq(projectId) }
         }
     }
 
-    override suspend fun deleteUsersProjects(userId: Int) {
+    override suspend fun deleteUsersProjects(userId: Long) {
         dbQuery {
             Projects.deleteWhere { Projects.userId.eq(userId) }
         }
