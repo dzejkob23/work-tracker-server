@@ -50,7 +50,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-core", exposed_version)
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposed_version)
 
-    // PostreSql + DB configuration
+    // PostgreSql + DB configuration
     implementation("org.postgresql", "postgresql", postgres_version)
     implementation("org.apache.cassandra", "cassandra-all", cassandra_version)
     implementation("com.zaxxer", "HikariCP", hikari_version)
@@ -63,4 +63,8 @@ dependencies {
     implementation("org.koin", "koin-ktor", koin_version)
     implementation("org.koin", "koin-logger-slf4j", koin_version)
 
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=org.mylibrary.OptInAnnotation"
 }
