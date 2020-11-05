@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/dzejkob23/work-tracker-server/issues"
   },
-  "homepage": "https://github.com/dzejkob23/work-tracker-server#readme"
+  "homepage": "https://github.com/dzejkob23/work-tracker-server#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "sass": "^1.29.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0",
+    "gulp-uglifycss": "^1.1.0"
+  }
 }
