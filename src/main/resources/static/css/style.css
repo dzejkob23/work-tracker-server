@@ -9,20 +9,15 @@ body {
   body main {
     width: 80%;
     margin: auto; }
-    body main div.flex-horizontal {
+    body main div.flex, body main div.flex-horizontal, body main div.flex-vertical {
       display: flex;
       justify-content: center;
-      align-items: center;
-      flex-direction: column; }
-      @media (min-width: 1024px) {
-        body main div.flex-horizontal {
-          flex-direction: row;
-          flex-wrap: wrap; } }
-    body main div.flex-vertical {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column; }
+      align-items: center; }
+      body main div.flex-horizontal {
+        flex-direction: row;
+        flex-wrap: wrap; }
+      body main div.flex-vertical {
+        flex-direction: column; }
     body main section.card {
       background-color: #FFFFFF;
       padding: 20px;

@@ -25,9 +25,9 @@ function minifyStyle() {
 }
 
 function watch() {
-    gulp.watch(sassFiles, ['sass']);
-    gulp.watch(cssFiles, ['css']);
+    gulp.watch(sassFiles, style);
+    gulp.watch(cssFiles, minifyStyle);
 }
 
-exports.build = series(style, minifyStyle)
-exports.default = series(style, minifyStyle, watch)
+exports.build = series(style, minifyStyle);
+exports.default = series(style, minifyStyle, watch);
