@@ -1,0 +1,18 @@
+$colors: (
+    background: #FFFFFF,
+    primary: #98F2CD,
+    primary-light: lighten(#98F2CD, 40%),
+    primary-dark: darken(#98F2CD, 40%),
+    accent: #FAE7E7,
+
+    text: #000000,
+    text-secondary: lighten(#000000, 40%),
+    text-button: #000000,
+    text-button-hover: #FFFFFF,
+
+    card: #FFFFFF
+);
+
+@function color($color-name) {
+    @return map-get($colors, $color-name)
+}
