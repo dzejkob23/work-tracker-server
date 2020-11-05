@@ -31,3 +31,7 @@ hs_err_pid*
 /build
 /captures
 /out
+
+# Node Package Modules
+/node_modules
+package-lock.json

@@ -1,0 +1,24 @@
+{
+  "name": "work-tracker-server",
+  "version": "1.0.0",
+  "description": "Server-side of project WorkTracker.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dzejkob23/work-tracker-server.git"
+  },
+  "keywords": [
+    "WorkTracker",
+    "Ktor",
+    "Vuejs"
+  ],
+  "author": "Jakub Zíka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dzejkob23/work-tracker-server/issues"
+  },
+  "homepage": "https://github.com/dzejkob23/work-tracker-server#readme"
+}
