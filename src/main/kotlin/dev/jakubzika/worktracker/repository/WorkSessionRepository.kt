@@ -3,10 +3,9 @@ package dev.jakubzika.worktracker.repository
 import dev.jakubzika.worktracker.db.Schema.WorkSession
 import dev.jakubzika.worktracker.db.Schema.WorkSessions
 import dev.jakubzika.worktracker.extension.dbQuery
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.InsertStatement
+import java.time.LocalDateTime
 
 interface WorkSessionRepository {
     suspend fun addWorkSession(
@@ -19,6 +18,7 @@ interface WorkSessionRepository {
     suspend fun findUsersWorkSessions(userId: Long): List<WorkSession>
     suspend fun deleteWorkSession(workSessionId: Long)
     suspend fun deleteUsersWorkSessions(userId: Long)
+    suspend fun endWorkSession(sessionId: Long)
 }
 
 class WorkSessionRepositoryImpl : WorkSessionRepository {
@@ -53,6 +53,14 @@ class WorkSessionRepositoryImpl : WorkSessionRepository {
     override suspend fun deleteUsersWorkSessions(userId: Long) {
         dbQuery {
             WorkSessions.deleteWhere { WorkSessions.userId.eq(userId) }
+        }
+    }
+
+    override suspend fun endWorkSession(sessionId: Long) {
+        dbQuery {
+            WorkSessions.update({ WorkSessions.id.eq(sessionId) }) {
+                it[endTime] = LocalDateTime.now().toString()
+            }
         }
     }
 }

@@ -1,9 +1,15 @@
 package dev.jakubzika.worktracker.page.section
 
+import dev.jakubzika.worktracker.controler.TrackingController
 import io.ktor.html.*
 import kotlinx.html.*
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class TrackingSectionTemplate : Template<FlowContent> {
+class TrackingSectionTemplate : KoinComponent, Template<FlowContent> {
+
+    val controller: TrackingController by inject()
+
     override fun FlowContent.apply() {
         section(classes = "card") {
             h2 { +"Měření" }
