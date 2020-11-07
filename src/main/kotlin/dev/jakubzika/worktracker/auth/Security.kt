@@ -33,8 +33,11 @@ object Security {
     ) : Principal
 }
 
+fun PipelineContext<Unit, ApplicationCall>.getUserSession(): SessionLogin?
+        = call.sessions.get<SessionLogin>()
+
 fun PipelineContext<Unit, ApplicationCall>.isUserAuthorized(): Boolean
-        = call.sessions.get<SessionLogin>() != null
+        = getUserSession() != null
 
 fun PipelineContext<Unit, ApplicationCall>.logoutUser()
         = call.sessions.clear<SessionLogin>()
