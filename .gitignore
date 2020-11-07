@@ -33,5 +33,5 @@ hs_err_pid*
 /out
 
 # Node Package Modules
-/node_modules
+/node_modules/*
 package-lock.json
