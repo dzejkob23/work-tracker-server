@@ -50,7 +50,11 @@ enum class Endpoint {
     LOGOUT {
         override val url: String
             get() = "/logout"
-    };
+    },
+    WORK_SESSION_START {
+        override val url: String
+            get() = "/worksession/start"
+    },;
 
     abstract val url: String
 
