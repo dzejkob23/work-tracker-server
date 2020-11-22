@@ -1,5 +1,6 @@
 package dev.jakubzika.worktracker.page.template
 
+import dev.jakubzika.worktracker.extension.translationId
 import dev.jakubzika.worktracker.routing.Endpoint
 import io.ktor.html.*
 import kotlinx.html.*
@@ -22,7 +23,7 @@ class DoneTemplate(
                             encType = FormEncType.textPlain,
                             method = FormMethod.get
                     ) {
-                        submitInput { value = "Continue" }
+                        submitInput { translationId("done-button") }
                     }
                 }
             }

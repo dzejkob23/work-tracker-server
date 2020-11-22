@@ -1,6 +1,7 @@
 package dev.jakubzika.worktracker.page
 
 import dev.jakubzika.worktracker.controler.RegistrationController
+import dev.jakubzika.worktracker.extension.translationId
 import dev.jakubzika.worktracker.page.template.MainTemplate
 import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.FORM_FIELD_NAME
@@ -39,26 +40,28 @@ private fun registrationView(main: MainTemplate = MainTemplate(), endpoint: Endp
         insert(main) {
             content {
                 div(classes = "flex-vertical") {
-                    h1 { +"Registration Page" }
+                    h1 { translationId("registration-page-title") }
                     form(
                             action = endpoint.url,
                             encType = FormEncType.applicationXWwwFormUrlEncoded,
                             method = FormMethod.post
                     ) {
                         p {
-                            +"User name: "
+                            span { translationId("registration-form-username") }
                             textInput(name = FORM_FIELD_NAME)
                         }
                         p {
-                            +"Password: "
+                            span { translationId("registration-form-password") }
                             passwordInput(name = FORM_FIELD_PASSWD)
                         }
                         p {
-                            +"Password again: "
+                            span { translationId("registration-form-password-again") }
                             passwordInput(name = FORM_FIELD_PASSWD_AGAIN)
                         }
                         p {
-                            submitInput(classes = "buttonPrimary") { value = "Register" }
+                            submitInput(classes = "buttonPrimary") {
+                                translationId("registration-form-button")
+                            }
                         }
                     }
                 }
