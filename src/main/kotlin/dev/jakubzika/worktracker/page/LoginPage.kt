@@ -3,6 +3,7 @@ package dev.jakubzika.worktracker.page
 import dev.jakubzika.worktracker.auth.SessionLogin
 import dev.jakubzika.worktracker.auth.isUserAuthorized
 import dev.jakubzika.worktracker.controler.LoginController
+import dev.jakubzika.worktracker.extension.translationId
 import dev.jakubzika.worktracker.page.template.MainTemplate
 import dev.jakubzika.worktracker.routing.Endpoint
 import dev.jakubzika.worktracker.routing.FORM_FIELD_NAME
@@ -61,15 +62,17 @@ private fun loginView(main: MainTemplate = MainTemplate(), endpoint: Endpoint) =
                             method = FormMethod.post
                     ) {
                         p {
-                            +"User name: "
+                            span { translationId("login-form-username") }
                             textInput(name = FORM_FIELD_NAME)
                         }
                         p {
-                            +"Password: "
+                            span { translationId("login-form-password") }
                             passwordInput(name = FORM_FIELD_PASSWD)
                         }
                         p {
-                            submitInput(classes = "buttonPrimary") { value = "Login" }
+                            submitInput(classes = "buttonPrimary") {
+                                translationId("login-form-button")
+                            }
                         }
                     }
                 }

@@ -13,7 +13,7 @@ class MainTemplate : Template<HTML> {
     override fun HTML.apply() {
         head {
             title(PAGE_TITLE)
-            link(href = "/static/css/style.css", rel = "stylesheet")
+            styleLink("/static/css/style.css")
             insert(headers)
         }
         body {
@@ -23,6 +23,7 @@ class MainTemplate : Template<HTML> {
             main {
                 insert(content)
             }
+            script { src = "/static/js/translations.js" }
         }
     }
 }
