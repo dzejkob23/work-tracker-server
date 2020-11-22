@@ -55,7 +55,7 @@ private fun loginView(main: MainTemplate = MainTemplate(), endpoint: Endpoint) =
         insert(main) {
             content {
                 div(classes = "flex-vertical") {
-                    h1 { + "Login page" }
+                    h1 { translationId("login-page-title") }
                     form(
                             action = endpoint.url,
                             encType = FormEncType.applicationXWwwFormUrlEncoded,
