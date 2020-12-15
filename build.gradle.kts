@@ -64,3 +64,7 @@ dependencies {
     implementation("org.koin", "koin-logger-slf4j", koin_version)
 
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+}
