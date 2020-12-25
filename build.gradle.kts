@@ -6,9 +6,11 @@ val postgres_version: String by project
 val cassandra_version: String by project
 val hikari_version: String by project
 val koin_version: String by project
+val shadow_version: String by project
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("com.github.johnrengelman.shadow") version "5.1.0"
     application
 }
 
@@ -16,13 +18,18 @@ group = "dev.jakubzika.worktracker"
 version = "0.0.1"
 
 application {
+    // Desired way mainClass.set("<main class>") causes an issue during jar packaging
+    @Suppress("DEPRECATION")
     mainClassName = "$group.AppKt"
 }
+
+//apply(plugin = "com.github.johnrengelman.shadow")
 
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven { url = uri("https://plugins.gradle.org/m2/") }
 }
 
 dependencies {
@@ -62,5 +69,15 @@ dependencies {
     implementation("org.koin", "koin-core", koin_version)
     implementation("org.koin", "koin-ktor", koin_version)
     implementation("org.koin", "koin-logger-slf4j", koin_version)
+}
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+}
+
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    baseName = "work-tracker"
+    classifier = ""
+    version = ""
 }
