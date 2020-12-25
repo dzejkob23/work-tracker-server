@@ -1,5 +1,7 @@
 # Compiled class file
 *.class
+*.css
+*.css.map
 
 # Log file
 *.log

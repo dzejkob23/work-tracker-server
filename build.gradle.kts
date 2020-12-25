@@ -9,9 +9,9 @@ val koin_version: String by project
 val shadow_version: String by project
 
 plugins {
+    application
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
     id("com.github.johnrengelman.shadow") version "5.1.0"
-    application
 }
 
 group = "dev.jakubzika.worktracker"
@@ -69,10 +69,6 @@ dependencies {
     implementation("org.koin", "koin-core", koin_version)
     implementation("org.koin", "koin-ktor", koin_version)
     implementation("org.koin", "koin-logger-slf4j", koin_version)
-
-    // Shadow JAR
-    implementation ("com.github.jengelman.gradle.plugins", "shadow", shadow_version)
-
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
@@ -80,8 +76,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
     kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    baseName = "work-tracker"
-    classifier = ""
-    version = ""
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
 }
