@@ -41,3 +41,6 @@ package-lock.json
 
 # JEnv
 .java-version
+
+# Heroku
+.env
