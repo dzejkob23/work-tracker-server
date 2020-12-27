@@ -20,9 +20,9 @@ class DatabaseClient {
 
     private fun hikari(): HikariDataSource {
         val config = HikariConfig()
-        config.jdbcUrl = System.getenv("JDBC_DATABASE_URL")
-        config.username = System.getenv("DB_USER")
-        config.password = System.getenv("DB_PASSWORD")
+        config.jdbcUrl = System.getenv("DATABASE_URL")
+//        config.username = System.getenv("DB_USER")
+//        config.password = System.getenv("DB_PASSWORD")
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"

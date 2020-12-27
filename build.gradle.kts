@@ -6,7 +6,6 @@ val postgres_version: String by project
 val cassandra_version: String by project
 val hikari_version: String by project
 val koin_version: String by project
-val shadow_version: String by project
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
