@@ -1,1 +1,1 @@
-web:    java -jar ./build/libs/work-tracker.jar
+web: java -jar ./build/libs/work-tracker.jar
