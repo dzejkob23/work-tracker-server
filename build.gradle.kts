@@ -81,3 +81,9 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     classifier = ""
     version = ""
 }
+
+tasks {
+    register("stage") {
+        // todo
+    }
+}
