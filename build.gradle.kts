@@ -87,37 +87,7 @@ tasks {
         dependsOn(clean)
     }
 
-    clean {
-        dependsOn("buildCss")
-    }
-
     register("stage") {
-        description = "Heroku run task"
-        group = "heroku build"
-
         dependsOn(build)
-    }
-
-    register("buildCss") {
-        description = "Build CSS style"
-        group = "heroku build"
-
-        dependsOn("installNpm")
-        doLast {
-            exec {
-                commandLine("gulp", "build")
-            }
-        }
-    }
-
-    register("installNpm") {
-        description = "Install NPM dependencies"
-        group = "heroku build"
-
-        doFirst {
-            exec {
-                commandLine("npm", "install")
-            }
-        }
     }
 }
