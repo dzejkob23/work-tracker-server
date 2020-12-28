@@ -83,29 +83,6 @@ tasks {
         version = ""
     }
 
-    register("stage") {
-        dependsOn(clean, build)
-    }
-
-    register("buildCss") {
-        description = "Build CSS style"
-        group = "build server"
-
-        dependsOn("installNpm")
-        exec {
-            commandLine("gulp", "build")
-        }
-    }
-
-    register("installNpm") {
-        description = "Install NPM dependencies"
-        group = "build server"
-
-        exec {
-            commandLine("npm", "install")
-        }
-    }
-
     build {
         dependsOn(clean)
     }
@@ -113,23 +90,34 @@ tasks {
     clean {
         dependsOn("buildCss")
     }
-}
 
-//val buildCss: Task by tasks.creating {
-//    description = "Build CSS style"
-//    group = "build server"
-//
-//    dependsOn(installNpm)
-//    exec {
-//        commandLine("gulp", "build")
-//    }
-//}
-//
-//val installNpm: Task by tasks.creating {
-//    description = "Install NPM dependencies"
-//    group = "build server"
-//
-//    exec {
-//        commandLine("npm", "install")
-//    }
-//}
+    register("stage") {
+        description = "Heroku run task"
+        group = "heroku build"
+
+        dependsOn(build)
+    }
+
+    register("buildCss") {
+        description = "Build CSS style"
+        group = "heroku build"
+
+        dependsOn("installNpm")
+        doLast {
+            exec {
+                commandLine("gulp", "build")
+            }
+        }
+    }
+
+    register("installNpm") {
+        description = "Install NPM dependencies"
+        group = "heroku build"
+
+        doFirst {
+            exec {
+                commandLine("npm", "install")
+            }
+        }
+    }
+}
