@@ -2,5 +2,13 @@
     "name": "Start on Heroku: Kotlin",
     "description": "A barebones Kotlin app, which can easily be deployed to Heroku.",
     "image": "heroku/java",
-    "addons": [ "heroku-postgresql" ]
+    "addons": [ "heroku-postgresql:hobby-dev" ],
+    "buildpacks": [
+        {
+            "url": "heroku/gradle"
+        },
+        {
+            "url": "heroku/nodejs"
+        }
+    ]
 }
