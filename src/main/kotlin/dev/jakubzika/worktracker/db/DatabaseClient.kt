@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.net.URI
 
 class DatabaseClient {
 
@@ -20,8 +21,11 @@ class DatabaseClient {
 
     private fun hikari(): HikariDataSource {
         val config = HikariConfig()
-        config.jdbcUrl = "jdbc:${System.getenv("DATABASE_URL")}"
-        config.username = System.getenv("DATABASE_USER")
+        val dbUri = URI(System.getenv("DATABASE_URL"))
+
+        config.jdbcUrl = "jdbc:${dbUri.scheme}://${dbUri.host}:${dbUri.port}${dbUri.path}"
+        config.username = dbUri.userInfo.split(':')[0]
+        config.password = dbUri.userInfo.split(':')[1]
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
