@@ -70,19 +70,66 @@ dependencies {
     implementation("org.koin", "koin-logger-slf4j", koin_version)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-}
-
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    baseName = "work-tracker"
-    classifier = ""
-    version = ""
-}
-
 tasks {
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+
+    withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+        baseName = "work-tracker"
+        classifier = ""
+        version = ""
+    }
+
     register("stage") {
-        // todo
+        dependsOn(clean, build)
+    }
+
+    register("buildCss") {
+        description = "Build CSS style"
+        group = "build server"
+
+        dependsOn("installNpm")
+        exec {
+            commandLine("gulp", "build")
+        }
+    }
+
+    register("installNpm") {
+        description = "Install NPM dependencies"
+        group = "build server"
+
+        exec {
+            commandLine("npm", "install")
+        }
+    }
+
+    build {
+        dependsOn(clean)
+    }
+
+    clean {
+        dependsOn("buildCss")
     }
 }
+
+//val buildCss: Task by tasks.creating {
+//    description = "Build CSS style"
+//    group = "build server"
+//
+//    dependsOn(installNpm)
+//    exec {
+//        commandLine("gulp", "build")
+//    }
+//}
+//
+//val installNpm: Task by tasks.creating {
+//    description = "Install NPM dependencies"
+//    group = "build server"
+//
+//    exec {
+//        commandLine("npm", "install")
+//    }
+//}

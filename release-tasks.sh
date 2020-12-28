@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gradle clean build
+# Here run DB migration process...
