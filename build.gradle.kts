@@ -83,11 +83,7 @@ tasks {
         version = ""
     }
 
-    build {
-        dependsOn(clean)
-    }
-
     register("stage") {
-        dependsOn(build)
+        dependsOn(clean, build)
     }
 }
