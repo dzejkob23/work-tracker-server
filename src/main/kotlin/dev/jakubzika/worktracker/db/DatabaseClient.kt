@@ -24,7 +24,7 @@ class DatabaseClient {
         val dbUri = URI(System.getenv("DATABASE_URL"))
         val sslMode = if (isProd) "?sslmode=require" else ""
 
-        config.jdbcUrl = "jdbc:${dbUri.scheme}://${dbUri.host}:${dbUri.port}${dbUri.path}${sslMode}"
+        config.jdbcUrl = "jdbc:postgresql://${dbUri.host}:${dbUri.port}${dbUri.path}${sslMode}"
         config.username = dbUri.userInfo.split(':')[0]
         config.password = dbUri.userInfo.split(':')[1]
         config.maximumPoolSize = 3
