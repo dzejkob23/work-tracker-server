@@ -7,10 +7,10 @@ import io.ktor.util.KtorExperimentalAPI
 fun Application.getEnvironmentProperty(name: String): String = environment.config.property(name).getString()
 
 @KtorExperimentalAPI
-private fun Application.getEnvKind(): String = getEnvironmentProperty("ktor.environment")
+val Application.envKind get() = getEnvironmentProperty("ktor.environment")
 
 @KtorExperimentalAPI
-fun Application.isDev(): Boolean = getEnvKind() == "dev"
+val Application.isDev get() = envKind == "dev"
 
 @KtorExperimentalAPI
-fun Application.isProd(): Boolean = !isDev()
+val Application.isProd get() = envKind == "prod"

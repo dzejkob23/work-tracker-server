@@ -9,8 +9,8 @@ import java.net.URI
 
 class DatabaseClient {
 
-    fun init() {
-        Database.connect(hikari())
+    fun init(isProd: Boolean) {
+        Database.connect(hikari(isProd))
 
         transaction {
             SchemaUtils.create(Schema.Users)
@@ -19,11 +19,12 @@ class DatabaseClient {
         }
     }
 
-    private fun hikari(): HikariDataSource {
+    private fun hikari(isProd: Boolean): HikariDataSource {
         val config = HikariConfig()
         val dbUri = URI(System.getenv("DATABASE_URL"))
+        val sslMode = if (isProd) "?sslmode=require" else ""
 
-        config.jdbcUrl = "jdbc:${dbUri.scheme}://${dbUri.host}:${dbUri.port}${dbUri.path}"
+        config.jdbcUrl = "jdbc:${dbUri.scheme}://${dbUri.host}:${dbUri.port}${dbUri.path}${sslMode}"
         config.username = dbUri.userInfo.split(':')[0]
         config.password = dbUri.userInfo.split(':')[1]
         config.maximumPoolSize = 3

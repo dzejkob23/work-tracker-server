@@ -8,6 +8,7 @@ import dev.jakubzika.worktracker.module.controllerModule
 import dev.jakubzika.worktracker.module.repositoryModule
 import dev.jakubzika.worktracker.routing.api
 import dev.jakubzika.worktracker.routing.web
+import dev.jakubzika.worktracker.utils.isProd
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
@@ -49,7 +50,7 @@ fun Application.main() {
     }
 
     val dbClient: DatabaseClient by inject()
-    dbClient.init()
+    dbClient.init(isProd)
 
     install(DefaultHeaders)
     install(CallLogging) {
